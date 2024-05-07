@@ -12,7 +12,7 @@ const errorHandlerMiddleware = require('./middleware/error_handler')
 const authenticationMiddleware = require('./middleware/authentication')
 
 const app = express()
-const PORT = 3500
+const PORT = 3600
 
 connectDB()
 
@@ -45,16 +45,19 @@ app.use(errorHandlerMiddleware)
 app.use('/api/auth', require('./routes/api/auth'))
 
 app.all('*', (req, res) => {
-    res.status(404)
+  res.status(404)
 
-    if(req.accepts('json')){
-        res.json({'error': '404 Not Found'})
-    }else{
-        res.type('text').send('404 Not Found')
-    }
+  if(req.accepts('json')){
+    res.json({'error': '404 Not Found'})
+  }else{
+    res.type('text').send('404 Not Found')
+  }
 })
 
+
+
+
 mongoose.connection.once('open', ()=>{
-    console.log('DB connected')
-    app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
+  console.log('DB connected')
+  app.listen(PORT, () => { console.log(`Listening on port ${PORT}`) })
 })
