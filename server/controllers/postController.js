@@ -1,5 +1,5 @@
-const Post = require("../models/post");
-const User = require("../models/user");
+const Post = require("../models/Post");
+const User = require("../models/User");
 
 exports.posts_create_post = (req, res, next) => {
     const post = new post({
@@ -32,3 +32,6 @@ exports.posts_create_post = (req, res, next) => {
             });
         });
 };
+
+
+

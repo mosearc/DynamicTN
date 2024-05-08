@@ -7,6 +7,7 @@ export const axiosInstance = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
+	'Cross-Origin-Resource-Policy':true
   }
 })
 
@@ -15,5 +16,6 @@ export const axiosPrivateInstance = axios.create({
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
+	'Cross-Origin-Resource-Policy':true
   }
 })

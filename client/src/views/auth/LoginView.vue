@@ -1,6 +1,4 @@
 <template>
-
-
   <div id="login">
     <div class="container">
       <div class="card card-body mt-4">
@@ -26,86 +24,84 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore, type LoginData, type RegisterData } from '../../stores/auth';
-import { reactive, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import {GoogleLogin} from "vue3-google-login";
-import {decodeCredential} from "vue3-google-login";
+	import { useAuthStore, type LoginData, type RegisterData } from '../../stores/auth';
+	import { reactive, ref } from 'vue';
+	import { useRouter } from 'vue-router';
+	import {GoogleLogin} from "vue3-google-login";
+	import {decodeCredential} from "vue3-google-login";
 
 
-const authStore = useAuthStore()
-const router = useRouter()
+	const authStore = useAuthStore()
+	const router = useRouter()
 
-const loginData = reactive<LoginData>({
-  email: "",
-  password: "",
-})
+	const registerData = reactive<RegisterData>({
+	  username: "",
+	  email: "",
+	  first_name: "",
+	  last_name: "",
+	  password: "",
+	  password_confirm: "",
+	})
 
-const errorMessage = ref<string>("")
+	const loginData = reactive<LoginData>({
+	  email: "",
+	  password: "",
+	})
 
-async function submit(){
-  await authStore.login(loginData)
-    .then(res => {
-      router.replace({name: "home"})
-    })
-    .catch(err => {
-      errorMessage.value = err.message
-    })
-}
+	const errorMessage = ref<string>("")
 
-const registerData = reactive<RegisterData>({
-  username: "",
-  email: "",
-  first_name: "",
-  last_name: "",
-  password: "",
-  password_confirm: "",
-})
-
-//
-//
-//
-
-//  function callback(response: any) {
-//
-//   console.log("logged in")
-//   console.log(response)
-//   let user = decodeCredential(response.credential)
-//   console.log(user)
-// //
-// //
-// //   registerData.email = JSON.parse(user.toString()).email
-// //   registerData.username = JSON.parse(user.toString()).name
-// //   registerData.first_name = JSON.parse(user.toString()).family_name
-// //   registerData.last_name = JSON.parse(user.toString()).given_name
-// //
-// //  authStore.register(registerData)
-//   router.replace({name: "home"})
-// }
-
-
-async function callback(response: any){
-  console.log("logged in")
-  console.log(response)
-  let userr = decodeCredential(response.credential)
-  console.log(userr)
-
-  registerData.email = userr.email
+		async function submit(){
+		  await authStore.login(loginData)
+			.then(res => {
+			  router.replace({name: "home"})
+			})
+			.catch(err => {
+			  errorMessage.value = err.message
+			})
+		}
 
 
 
+	//
+	//
+	//
+
+	//  function callback(response: any) {
+	//
+	//   console.log("logged in")
+	//   console.log(response)
+	//   let user = decodeCredential(response.credential)
+	//   console.log(user)
+	// //
+	// //
+	// //   registerData.email = JSON.parse(user.toString()).email
+	// //   registerData.username = JSON.parse(user.toString()).name
+	// //   registerData.first_name = JSON.parse(user.toString()).family_name
+	// //   registerData.last_name = JSON.parse(user.toString()).given_name
+	// //
+	// //  authStore.register(registerData)
+	//   router.replace({name: "home"})
+	// }
 
 
-  await authStore.register(registerData)
-      .then(res => {
-        router.replace({name: "home"})
+	async function callback(response: any){
+	  console.log("logged in")
+	  console.log(response)
+	  let userr = decodeCredential(response.credential)
+	  console.log(user)
 
-      })
-      .catch(err => {
-        errorMessage.value = err.message
-      })
-}
+	  registerData.email = user.email
 
+
+	  await authStore.register(registerData)
+		  .then(res => {
+			router.replace({name: "home"})
+
+		  })
+		  .catch(err => {
+			errorMessage.value = err.message
+		  })
+	}
 
 
 
