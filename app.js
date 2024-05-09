@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
+const usersRoutes = require('./api/routes/users');
 
 mongoose.connect('mongodb+srv://mosearcaro:Hni31CRlF6xbwoJk@cluster0.7f8xrkp.mongodb.net/mevn_auth?retryWrites=true&w=majority&appName=Cluster0', {
     //useMongoClient: true
@@ -29,7 +30,9 @@ app.use((req, res, next) => {
 })
 
 app.use('/posts', postsRoutes);
-app.use('/comments', commentsRoutes)
+app.use('/comments', commentsRoutes);
+app.use('/users', usersRoutes)
+
 
 //error handler se non esiste
 app.use((req,res,next)=>{
