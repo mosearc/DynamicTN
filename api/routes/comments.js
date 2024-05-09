@@ -6,10 +6,12 @@ const mongoose = require('mongoose');
 const Comment = require('../models/comment');
 const Post = require('../models/post');
 
+//da testare tutte le api
 
 router.get('/',  (req, res, next) => {
     Comment.find()
         .select('post text _id')
+        .populate('post', 'name') //cosi la risposta continene il posto collegato e solo il suo nome
         .exec()
         .then(docs => {
             res.status(200).json({
@@ -73,6 +75,7 @@ router.post('/',  (req, res, next) => {
 
 router.get("/:commentId", (req, res, next) => {
     Comment.findById(req.params.commentId)
+        .populate('post') //cosi la risposta continene il posto collegato
         .exec()
         .then(comment => {
             if(!comment){
@@ -95,11 +98,40 @@ router.get("/:commentId", (req, res, next) => {
         })
 })
 
+
+//array propName:quello che vuoi cambiare: { "propName":"like", "value": 999 }
+
+router.patch("/:commentId", (req, res, next) => {
+    const id = req.params.commentId;
+    const updateOPS = {}
+    for (const ops of req.body) {
+        updateOPS[ops.propName] = ops.value;
+    }
+
+    Comment.updateOne({_id: id}, {$set: updateOPS})
+        .exec()
+        .then(result => {
+            console.log(result);
+            res.status(200).json({
+                message: 'Comment Updated Successfully',
+                request: {
+                    type: 'GET',
+                    url: "http://localhost:3000/posts/" + id
+                }
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({error: err})
+        })
+})
+
+
 router.delete("/:commentId", (req, res, next) => {
     Comment.deleteOne({_id: req.params.commentId})
         .exec()
         .then(result => {
-            res.status(200).json({
+            res.status(204).json({
                 message: "Comment deletion successfull",
                 request: {
                     type: 'POST',
@@ -111,10 +143,6 @@ router.delete("/:commentId", (req, res, next) => {
         .catch(err => {
             res.status(500).json({error: err})
         })
-})
-
-router.patch("/:commentId", (req, res, next) => {
-
 })
 
 module.exports = router;

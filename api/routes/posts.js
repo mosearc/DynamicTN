@@ -1,6 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + file.originalname)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    //reject
+    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+        cb(null, true)
+    }else{
+        cb(null, false)
+    }
+}
+
+
+const upload = multer({
+
+    storage: storage,
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter : fileFilter
+});
+
 
 const Post = require('../models/post');
 
@@ -8,7 +39,7 @@ const Post = require('../models/post');
 router.get('/', (req, res, next) => {
 
     Post.find()
-        .select('name text _id')
+        .select('name text _id postImage')
         .exec()
         .then(docs => {
             const risp = {
@@ -17,7 +48,10 @@ router.get('/', (req, res, next) => {
                     return {
                         name: doc.name,
                         text: doc.text,
+                        like: doc.like,
+                        postImage: doc.postImage,
                         _id: doc._id,
+
                         request: {
                             type: "GET",
                             url: "http://localhost:3000/posts/" + doc._id
@@ -37,13 +71,26 @@ router.get('/', (req, res, next) => {
         });
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', upload.single('postImage'),(req, res, next) => {
+    console.log(req.file)
 
-    const post = new Post({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        text: req.body.text,
-    });
+    let post
+    if(req.file === undefined){
+        post = new Post({
+            _id: new mongoose.Types.ObjectId(),
+            name: req.body.name,
+            text: req.body.text,
+            //postImage: req.file.path
+        });
+    }else{
+        post = new Post({
+            _id: new mongoose.Types.ObjectId(),
+            name: req.body.name,
+            text: req.body.text,
+            postImage: req.file.path
+        });
+    }
+
 
     post
         .save()
@@ -56,27 +103,25 @@ router.post('/', (req, res, next) => {
                     text: result.text,
                     _id: result._id,
                     result: {
-                        type:"GET",
+                        type: "GET",
                         url: "http://localhost:3000/posts/" + result._id
                     }
                 }
-    })
+            })
+        })
         .catch(err => {
             console.log(err)
             res.status(500).json({
                 error: err
             })
         });
-
-
-    })
 })
 
 router.get('/:postId', (req, res,next) => {
     const id = req.params.postId;
 
     Post.findById(id)
-        .select('name text _id')
+        .select('name text _id postImage')
         .exec()
         .then(doc => {
             console.log("from database ", doc);
@@ -100,7 +145,8 @@ router.get('/:postId', (req, res,next) => {
 })
 
 
-//array propName:quello che vuoi cambiare
+
+//array propName:quello che vuoi cambiare: { "propName":"like", "value": 999 }
 router.patch('/:postId', (req, res, next) => {
     const id = req.params.postId
     const updateOps = {}
@@ -112,7 +158,7 @@ router.patch('/:postId', (req, res, next) => {
         .then(result => {
             console.log(result);
             res.status(200).json({
-                message: 'Updated Successfully',
+                message: 'Post Updated Successfully',
                 request: {
                     type: 'GET',
                     url: "http://localhost:3000/posts/" + id
@@ -130,7 +176,7 @@ router.delete('/:postId', (req, res, next) => {
     Post.deleteOne({_id: id})
         .exec()
         .then(result => {
-            res.status(200).json({
+            res.status(204).json({
                 message: 'DELETED',
                 request: { //roba per fare l'inverso e avere info
                     type: 'POST',
