@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 const {hash} = require("bcrypt");
+const Post = require("../models/post");
 
 
 router.post('/', (req, res, next) => {
@@ -65,12 +66,61 @@ router.delete('/:userId', (req, res, next) => {
 
 router.get('/', (req, res, next) => {
     User.find()
+        .select('email password _id')
+        .exec()
+        .then(docs => {
+            const risp = {
+                count: docs.length,
+                posts: docs.map(doc => {
+                    return {
+                        email: doc.email,
+                        password: doc.password,
+                        _id: doc._id,
+
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:3000/users/" + doc._id
+                        }
+                    }
+                })
+            }
+            if (docs.length > 0) {
+                res.status(200).json(risp);
+            }else{
+                res.status(404).json({message:'No Posts Found'});
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({error: err});
+        });
 
 })
 
-router.get('/:userId', (req, res, next) => {
-    User.findById(req.params.userId)
-
+router.get('/:email', (req, res, next) => {
+    const { email } = req.params;
+    User.findOne({ email })
+        .select('email password _id')
+        .exec()
+        .then(doc => {
+            console.log("from database ", doc);
+            if(doc){
+                res.status(200).json({
+                    post: doc,
+                    request: {
+                        type: "GET",
+                        description: 'get a specific user',
+                        url: "http://localhost:3000/",
+                    }
+                })
+            }else{
+                res.status(404).json({message: 'Not Found'})
+            }
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(500).json({error: err})
+        })
 })
 
 

@@ -48,7 +48,6 @@ router.get('/', (req, res, next) => {
                     return {
                         name: doc.name,
                         text: doc.text,
-                        like: doc.like,
                         postImage: doc.postImage,
                         _id: doc._id,
 
