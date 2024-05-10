@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const checkAuth = require('../middleware/check-auth');
 
 
 const storage = multer.diskStorage({
@@ -70,7 +71,8 @@ router.get('/', (req, res, next) => {
         });
 })
 
-router.post('/', upload.single('postImage'),(req, res, next) => {
+
+router.post('/', checkAuth, upload.single('postImage'), (req, res, next) => {
     console.log(req.file)
 
     let post
@@ -146,7 +148,7 @@ router.get('/:postId', (req, res,next) => {
 
 
 //array propName:quello che vuoi cambiare: { "propName":"like", "value": 999 }
-router.patch('/:postId', (req, res, next) => {
+router.patch('/:postId', checkAuth, (req, res, next) => {
     const id = req.params.postId
     const updateOps = {}
     for (const ops of req.body) {
@@ -170,7 +172,7 @@ router.patch('/:postId', (req, res, next) => {
         })
 })
 
-router.delete('/:postId', (req, res, next) => {
+router.delete('/:postId', checkAuth, (req, res, next) => {
     const id = req.params.postId
     Post.deleteOne({_id: id})
         .exec()

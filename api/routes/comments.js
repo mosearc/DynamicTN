@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const checkAuth = require('../middleware/check-auth');
 
 
 const Comment = require('../models/comment');
@@ -35,7 +36,7 @@ router.get('/',  (req, res, next) => {
         })
 })
 
-router.post('/',  (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     Post.findById(req.body.postId)
         .then(post => {
             if (!post){
@@ -101,7 +102,7 @@ router.get("/:commentId", (req, res, next) => {
 
 //array propName:quello che vuoi cambiare: { "propName":"like", "value": 999 }
 
-router.patch("/:commentId", (req, res, next) => {
+router.patch("/:commentId", checkAuth, (req, res, next) => {
     const id = req.params.commentId;
     const updateOPS = {}
     for (const ops of req.body) {
@@ -127,7 +128,7 @@ router.patch("/:commentId", (req, res, next) => {
 })
 
 
-router.delete("/:commentId", (req, res, next) => {
+router.delete("/:commentId", checkAuth, (req, res, next) => {
     Comment.deleteOne({_id: req.params.commentId})
         .exec()
         .then(result => {
