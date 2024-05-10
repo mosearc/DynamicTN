@@ -7,10 +7,15 @@ const mongoose = require('mongoose');
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
 const usersRoutes = require('./api/routes/users');
+const authRoutes = require('./api/routes/auth');
 
 mongoose.connect('mongodb+srv://mosearcaro:Hni31CRlF6xbwoJk@cluster0.7f8xrkp.mongodb.net/mevn_auth?retryWrites=true&w=majority&appName=Cluster0', {
     //useMongoClient: true
 })
+
+/*mongoose.connect(process.env.DATABASE_URI, {
+    //useMongoClient: true
+})*/
 
 mongoose.Promise = global.Promise;
 
@@ -31,7 +36,8 @@ app.use((req, res, next) => {
 
 app.use('/posts', postsRoutes);
 app.use('/comments', commentsRoutes);
-app.use('/users', usersRoutes)
+app.use('/users', usersRoutes);
+app.use('/auth', authRoutes);
 
 
 //error handler se non esiste
