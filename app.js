@@ -34,10 +34,13 @@ app.use((req, res, next) => {
     next();
 })
 
+
+
 app.use('/posts', postsRoutes);
 app.use('/comments', commentsRoutes);
 app.use('/users', usersRoutes);
 app.use('/auth', authRoutes);
+
 
 
 //error handler se non esiste
