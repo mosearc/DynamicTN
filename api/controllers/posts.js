@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Post = require("../models/post");
 
 
+
 exports.posts_get_all = (req, res, next) => {
 
     Post.find()

@@ -3,6 +3,9 @@ const app = express();
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
+const options = require('./swagger')
 
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
@@ -41,6 +44,8 @@ app.use('/comments', commentsRoutes);
 app.use('/users', usersRoutes);
 app.use('/auth', authRoutes);
 
+const specs = swaggerJsDoc(options)
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
 
 
 //error handler se non esiste
@@ -58,5 +63,7 @@ app.use((error,req,res,next)=>{
         }
     })
 })
+
+
 
 module.exports = app;

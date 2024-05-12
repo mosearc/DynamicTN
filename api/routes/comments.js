@@ -9,14 +9,137 @@ const Post = require('../models/post');
 
 const CommentController = require('../controllers/comments');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Comment
+ *   description: API endpoint to manage comments
+ */
+
+/**
+ * @swagger
+ * /comments:
+ *   get:
+ *     summary: Returns the list of all the comments
+ *     tags: [Comment]
+ *     responses:
+ *       200:
+ *         description: The list of the comments
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Comment'
+ */
 router.get('/', CommentController.comments_get_all )
 
+/**
+ * @swagger
+ * /comments:
+ *   post:
+ *     summary: Create a new comment
+ *     tags: [Comment]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Comment'
+ *     responses:
+ *       200:
+ *         description: The comment was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       500:
+ *         description: Some server error
+ *       404:
+ *         description: not found
+ */
 router.post('/', checkAuth, CommentController.comments_create)
 
+/**
+ * @swagger
+ * /comments/{id}:
+ *   get:
+ *     summary: get the comment with the id
+ *     tags: [Comment]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: the comment id
+ *     responses:
+ *       200:
+ *         description: the comment with that id
+ *         contents:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Comment'
+ *       404:
+ *         description: not found
+ *       500:
+ *         description: fatal error
+ */
 router.get("/:commentId", CommentController.comments_get_by_id)
 
+/**
+ * @swagger
+ * /comments/{id}:
+ *  put:
+ *    summary: Update the comment by the id
+ *    tags: [Comment]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The comment id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Comment'
+ *    responses:
+ *      200:
+ *        description: The comment was updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Comment'
+ *      404:
+ *        description: The post was not found
+ *      500:
+ *        description: Some error happened
+ */
 router.patch("/:commentId", checkAuth, CommentController.comments_modify)
 
+/**
+ * @swagger
+ * /comments/{id}:
+ *   delete:
+ *     summary: Remove the comment by id
+ *     tags: [Comment]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The comment id
+ *
+ *     responses:
+ *       200:
+ *         description: The comment was deleted
+ *       404:
+ *         description: The comment was not found
+ */
 router.delete("/:commentId", checkAuth, CommentController.comments_delete)
 
 module.exports = router;

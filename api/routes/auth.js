@@ -9,7 +9,37 @@ const {hash} = require("bcrypt");
 
 const AuthController = require("../controllers/auth");
 
-//login
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: API endpoint to manage login
+ */
+
+/**
+ * @swagger
+ * /auth:
+ *   post:
+ *     summary: perform the user login
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Auth'
+ *     responses:
+ *       200:
+ *         description: The post was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Auth'
+ *       500:
+ *         description: Some server error
+ *       404:
+ *         description: not found
+ */
 router.post('/', AuthController.auth_login)
 
 
