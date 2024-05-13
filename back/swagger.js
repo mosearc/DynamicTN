@@ -4,7 +4,7 @@ const options = {
         info: {
             title: 'DynamicTN',
             version: '1.0.0',
-            description: 'DynamicTN is a project to expose and share your improvement over the city of Trento',
+            description: 'DynamicTN is a project that aim to create a platform to expose and share your improvement suggestions over the city of Trento',
 
         },
         servers: [
@@ -73,7 +73,7 @@ const options = {
                 Auth: {
                     type: 'object',
                     required: ['email', 'password'],
-                    description: 'a "fake" model used to perform login in a restful logic',
+                    description: 'a "fake" model used to perform login in a RESTful logic',
                     properties: {
                         email: {
                             type: 'string',
