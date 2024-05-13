@@ -9,7 +9,7 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:3500',
+                url: 'http://localhost:3000',
                 description: 'development server',
             }
         ],
@@ -18,6 +18,7 @@ const options = {
                 User: {
                     type: 'object',
                     required: ['email', 'password'],
+                    description: 'the user model of the system',
                     properties: {
                         email: {
                             type: 'string',
@@ -27,11 +28,15 @@ const options = {
                             type: 'string',
                             description: 'Password of the user',
                         }
+                    },
+                    example: {
+
                     }
                 },
                 Post: {
                     type: 'object',
                     required: ['name', 'text'],
+                    description: '',
                     properties: {
                         name: {
                             type: 'string',
@@ -52,15 +57,37 @@ const options = {
                 Comment: {
                     type: 'object',
                     required: ['post', 'text'],
+                    description: '',
                     properties: {
                         post: {
                             type: 'mongoose.Schema.Types.ObjectId',
-                            text: 'string'
+                            description: 'the link at its post'
+                        },
+                        text: {
+                            type: 'string',
+                            description: 'the text of the comment'
                         }
                     }
+
                 },
                 Auth: {
                     type: 'object',
+                    required: ['email', 'password'],
+                    description: 'a "fake" model used to perform login in a restful logic',
+                    properties: {
+                        email: {
+                            type: 'string',
+                            description: 'Email address of the user',
+                        },
+                        password: {
+                            type: 'string',
+                            description: 'Password of the user',
+                        }
+                    },
+                    example: {
+                        email: 'test@test.com',
+                        password: 'password'
+                    }
                 }
             }
         },
