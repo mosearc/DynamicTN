@@ -83,7 +83,7 @@ exports.posts_get_by_id = (req, res,next) => {
     const id = req.params.postId;
 
     Post.findById(id)
-		.select("_id title description")
+		.select("_id title description location")
         .exec()
         .then(doc => {
             console.log("from database ", doc);
