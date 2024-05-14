@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Post = require("../models/post");
 
 
@@ -6,16 +5,13 @@ const Post = require("../models/post");
 exports.posts_get_all = (req, res, next) => {
 
     Post.find()
-        .select('name text _id postImage')
         .exec()
         .then(docs => {
             const risp = {
                 count: docs.length,
                 posts: docs.map(doc => {
                     return {
-                        name: doc.name,
-                        text: doc.text,
-                        postImage: doc.postImage,
+                        title: doc.title,
                         _id: doc._id,
 
                         request: {
@@ -44,14 +40,14 @@ exports.posts_create = (req, res, next) => {
     if(req.file === undefined){
         post = new Post({
             _id: new mongoose.Types.ObjectId(),
-            name: req.body.name,
+            name: req.body.tile,
             text: req.body.text,
             //postImage: req.file.path
         });
     }else{
         post = new Post({
             _id: new mongoose.Types.ObjectId(),
-            name: req.body.name,
+            name: req.body.title,
             text: req.body.text,
             postImage: req.file.path
         });
@@ -65,7 +61,7 @@ exports.posts_create = (req, res, next) => {
             res.status(201).json({
                 message: 'Created Successfully',
                 createdPost: {
-                    name: result.name,
+                    name: result.title,
                     text: result.text,
                     _id: result._id,
                     result: {
@@ -87,7 +83,7 @@ exports.posts_get_by_id = (req, res,next) => {
     const id = req.params.postId;
 
     Post.findById(id)
-        .select('name text _id postImage')
+		.select("_id title description")
         .exec()
         .then(doc => {
             console.log("from database ", doc);
