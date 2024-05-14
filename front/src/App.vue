@@ -42,4 +42,11 @@ body {
   border-top-right-radius: 0;
 }
 
+button{
+	color:white;
+	background-color:black;
+	border-radius:8px;
+	border:none;
+}
+
 </style>
