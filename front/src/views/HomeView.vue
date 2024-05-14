@@ -1,13 +1,13 @@
 <template>
-  Home
+  HOME
 </template>
 
-<script>
+<script lang="ts">
+import {onMounted, ref} from "vue";
+
 export default {
   name: 'HomeView',
+
 }
 </script>
 
-<style scoped>
-
-</style>

@@ -1,21 +1,122 @@
 <template>
-  <form>
-    <h1 class="h3 mb-3 fw-normal">Please Log In</h1>
+  <form @submit.prevent="submit">
+    <span v-if="logged">
+      You are already logged in!
+<!--
+      <button type="button" @click="logout">LogOut</button>
+-->
+    </span>
 
-    <input type="email" class="form-control" placeholder="name@example.com">
+    <span v-if="!logged">
+      <h1 class="h3 mb-3 fw-normal">Please Log In</h1>
 
-    <input type="password" class="form-control" placeholder="Password">
+      <input v-model="data.email" type="email" class="form-control" placeholder="name@example.com">
 
-    <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+      <input v-model="data.password" type="password" class="form-control" placeholder="Password">
+
+      <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+    </span>
   </form>
 </template>
 
-<script>
+<script lang="ts">
+import {reactive} from "vue";
+import {useRouter} from "vue-router";
+import {logged, setLogged} from "@/global";
+
+
 export default {
   name: 'LoginView',
+  setup() {
+    const data = reactive({
+      email: '',
+      password: '',
+    })
+
+    const router = useRouter()
+
+
+
+    const submit = async () => {
+
+      const response = await fetch('http://localhost:3000/auth', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        credentials: 'include',
+        body: JSON.stringify(data),
+      })
+
+
+      const responseData = await response.json()
+      const token = responseData.token
+      console.log(responseData)
+      console.log(token)
+
+      if(response.ok){
+        router.push('/')
+        localStorage.setItem('token', token)
+        setLogged(1)
+      }else{
+        router.push('/login')
+        alert("WRONG!")
+      }
+
+
+    }
+
+
+    return {
+      data,
+      submit,
+      logged,
+    }
+  }
 }
+
+/*export default {
+  name: 'LoginView',
+  setup() {
+    const data = reactive({
+      email: '',
+      password: '',
+    })
+
+    const router = useRouter()
+
+    const submit = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/auth', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data),
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to login')
+        }
+
+        const responseData = await response.json()
+
+        // Assuming the token is returned as 'token' in the response
+        const token = responseData.token
+        console.log(token)
+
+        // Set the token in a cookie
+        document.cookie = `authToken=${token};path=/`
+
+        await router.push('/')
+      } catch (error) {
+        console.error('Error occurred during login:', error)
+        // Handle error or display error message to the user
+      }
+    }
+
+    return {
+      data,
+      submit
+    }
+  }
+}*/
+
+
 </script>
-
-<style scoped>
-
-</style>
