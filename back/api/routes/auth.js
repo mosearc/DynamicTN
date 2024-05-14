@@ -30,15 +30,15 @@ const AuthController = require("../controllers/auth");
  *             $ref: '#/components/schemas/Auth'
  *     responses:
  *       200:
- *         description: The post was successfully created
+ *         description: Auth success
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Auth'
  *       500:
  *         description: Some server error
- *       404:
- *         description: not found
+ *       401:
+ *         description: auth failed
  */
 router.post('/', AuthController.auth_login)
 

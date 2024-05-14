@@ -30,7 +30,8 @@ const options = {
                         }
                     },
                     example: {
-
+                        email: 'example@example.com',
+                        password: 'examplePassword',
                     }
                 },
                 Post: {
@@ -51,13 +52,17 @@ const options = {
                             description: 'the image of the post'
                         }
 
+                    },
+                    example: {
+                        name: 'examplePostTitle',
+                        text: 'examplePostText',
+                        postImage: 'exampleImageUrl',
                     }
-
                 },
                 Comment: {
                     type: 'object',
                     required: ['post', 'text'],
-                    description: '',
+                    description: 'creating a comment linked to one post, use postId',
                     properties: {
                         post: {
                             type: 'mongoose.Schema.Types.ObjectId',
@@ -67,13 +72,16 @@ const options = {
                             type: 'string',
                             description: 'the text of the comment'
                         }
+                    },
+                    example: {
+                        post: 'examplePostId',
+                        text: 'exampleCommentText'
                     }
-
                 },
                 Auth: {
                     type: 'object',
                     required: ['email', 'password'],
-                    description: 'a "fake" model used to perform login in a RESTful logic',
+                    description: 'a "fake" model used to perform login remaining in a RESTful logic',
                     properties: {
                         email: {
                             type: 'string',
@@ -85,15 +93,15 @@ const options = {
                         }
                     },
                     example: {
-                        email: 'test@test.com',
-                        password: 'password'
+                        email: 'example@example.com',
+                        password: 'examplePassword'
                     }
                 }
             }
         },
         responses: {
             404: {
-                description: 'api not founded',
+                description: 'not founded',
                 contents: 'application/json',
             },
             500: {

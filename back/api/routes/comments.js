@@ -31,6 +31,8 @@ const CommentController = require('../controllers/comments');
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Comment'
+ *       500:
+ *         description: fatal error
  */
 router.get('/', CommentController.comments_get_all )
 
@@ -47,7 +49,7 @@ router.get('/', CommentController.comments_get_all )
  *           schema:
  *             $ref: '#/components/schemas/Comment'
  *     responses:
- *       200:
+ *       201:
  *         description: The comment was successfully created
  *         content:
  *           application/json:
@@ -56,7 +58,7 @@ router.get('/', CommentController.comments_get_all )
  *       500:
  *         description: Some server error
  *       404:
- *         description: not found
+ *         description: post not found
  */
 router.post('/', checkAuth, CommentController.comments_create)
 
@@ -81,7 +83,7 @@ router.post('/', checkAuth, CommentController.comments_create)
  *             schema:
  *               $ref: '#/components/schemas/Comment'
  *       404:
- *         description: not found
+ *         description: comment not found
  *       500:
  *         description: fatal error
  */
@@ -113,8 +115,6 @@ router.get("/:commentId", CommentController.comments_get_by_id)
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Comment'
- *      404:
- *        description: The post was not found
  *      500:
  *        description: Some error happened
  */
@@ -135,10 +135,10 @@ router.patch("/:commentId", checkAuth, CommentController.comments_modify)
  *         description: The comment id
  *
  *     responses:
- *       200:
+ *       204:
  *         description: The comment was deleted
- *       404:
- *         description: The comment was not found
+ *       500:
+ *         description: fatal error
  */
 router.delete("/:commentId", checkAuth, CommentController.comments_delete)
 
