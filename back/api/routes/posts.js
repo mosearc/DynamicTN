@@ -64,6 +64,11 @@ const Post = require('../models/post');
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Post'
+ *       404:
+ *         description: seems empty :(
+ *       500:
+ *         description: fatal error
+ *
  */
 router.get('/', PostController.posts_get_all)
 
@@ -81,7 +86,7 @@ router.get('/', PostController.posts_get_all)
  *           schema:
  *             $ref: '#/components/schemas/Post'
  *     responses:
- *       200:
+ *       201:
  *         description: The post was successfully created
  *         content:
  *           application/json:
@@ -89,8 +94,6 @@ router.get('/', PostController.posts_get_all)
  *               $ref: '#/components/schemas/Post'
  *       500:
  *         description: Some server error
- *       404:
- *         description: not found
  */
 router.post('/', checkAuth, upload.single('postImage'), PostController.posts_create)
 
@@ -124,7 +127,7 @@ router.get('/:postId', PostController.posts_get_by_id)
 /**
  * @swagger
  * /posts/{id}:
- *  put:
+ *  patch:
  *    summary: Update the post by the id
  *    tags: [Post]
  *    parameters:
@@ -147,8 +150,6 @@ router.get('/:postId', PostController.posts_get_by_id)
  *          application/json:
  *            schema:
  *              $ref: '#/components/schemas/Post'
- *      404:
- *        description: The post was not found
  *      500:
  *        description: Some error happened
  */
@@ -169,10 +170,10 @@ router.patch('/:postId', checkAuth, PostController.posts_modify)
  *         description: The post id
  *
  *     responses:
- *       200:
+ *       204:
  *         description: The post was deleted
- *       404:
- *         description: The post was not found
+ *       500:
+ *         description: fatal error
  */
 router.delete('/:postId', checkAuth, PostController.posts_delete)
 

@@ -354,7 +354,7 @@ components:
           type: string
           description: the text of the comment
       example:
-        post: examplePostId
+        postId: examplePostId
         text: exampleCommentText
     Auth:
       type: object
