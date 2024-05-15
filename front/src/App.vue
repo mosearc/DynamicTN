@@ -1,24 +1,52 @@
 <template>
-  <NavBar/>
-
-  <main class="form-signin w-100 m-auto">
+  <div>
+    <NavBar/>
     <router-view/>
-  </main>
+  </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar.vue'
 
 export default {
-  components: {NavBar}
+  name: 'App',
+  components: {
+    NavBar,
+  }
 }
 </script>
 
 <style>
+* {
+  box-sizing: border-box;
+  font-family: Arial;
+}
 
-html,
 body {
-  height: 100%;
+  position: relative;
+  background-color: #edf2f4;
+}
+
+h1 {
+  text-align: center;
+}
+
+#page-wrap {
+  margin: auto;
+  max-width: 800px;
+  min-height: 100vh;
+}
+
+button {
+  background-color: black;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  outline: 0;
+  padding: 16px;
 }
 
 .form-signin {
@@ -41,12 +69,4 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
-
-button{
-	color:white;
-	background-color:black;
-	border-radius:8px;
-	border:none;
-}
-
 </style>

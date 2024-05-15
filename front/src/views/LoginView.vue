@@ -1,20 +1,20 @@
 <template>
-  <form @submit.prevent="submit">
+  <form @submit.prevent="submit" class="form-signin w-100 m-auto">
     <span v-if="logged">
-      You are already logged in!
+      Already Signed In!
 <!--
-      <button type="button" @click="logout">LogOut</button>
+      <button type="button" @click="logout">Logout</button>
 -->
     </span>
 
     <span v-if="!logged">
-      <h1 class="h3 mb-3 fw-normal">Please Log In</h1>
+      <h1 class="h3 mb-3 fw-normal"><b>Entra nel tuo account</b></h1>
 
-      <input v-model="data.email" type="email" class="form-control" placeholder="name@example.com">
+      <input v-model="data.email" type="email" class="form-control" placeholder="Inserisci e-mail">
 
-      <input v-model="data.password" type="password" class="form-control" placeholder="Password">
+      <input v-model="data.password" type="password" class="form-control" placeholder="Inserisci password">
 
-      <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+      <button class="btn btn-primary w-100 py-2" type="submit">Accedi</button>
     </span>
   </form>
 </template>
@@ -23,7 +23,6 @@
 import {reactive} from "vue";
 import {useRouter} from "vue-router";
 import {logged, setLogged} from "@/global";
-
 
 export default {
   name: 'LoginView',
@@ -35,8 +34,6 @@ export default {
 
     const router = useRouter()
 
-
-
     const submit = async () => {
 
       const response = await fetch('http://localhost:3000/auth', {
@@ -45,7 +42,6 @@ export default {
         credentials: 'include',
         body: JSON.stringify(data),
       })
-
 
       const responseData = await response.json()
       const token = responseData.token
@@ -60,10 +56,7 @@ export default {
         router.push('/login')
         alert("WRONG!")
       }
-
-
     }
-
 
     return {
       data,
@@ -73,7 +66,7 @@ export default {
   }
 }
 
-/*export default {
+/* export default {
   name: 'LoginView',
   setup() {
     const data = reactive({
@@ -116,7 +109,5 @@ export default {
       submit
     }
   }
-}*/
-
-
+} */
 </script>

@@ -8,14 +8,14 @@
 
 
   <span v-if="!registered && !logged">
-    <form @submit.prevent="submit">
-      <h1 class="h3 mb-3 fw-normal">Please Register</h1>
+    <form @submit.prevent="submit" class="form-signin w-100 m-auto">
+      <h1 class="h3 mb-3 fw-normal"><b>Crea un account</b></h1>
 
-      <input v-model="data.email" type="email" class="form-control" placeholder="name@example.com">
+      <input v-model="data.email" type="email" class="form-control" placeholder="Inserisci e-mail">
 
-      <input v-model="data.password" type="password" class="form-control" placeholder="Password">
+      <input v-model="data.password" type="password" class="form-control" placeholder="Inserisci password">
 
-      <button class="btn btn-primary w-100 py-2" type="submit">Submit</button>
+      <button class="btn btn-primary w-100 py-2" type="submit">Registrati</button>
     </form>
   </span>
 </template>
