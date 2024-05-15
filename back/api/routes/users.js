@@ -31,7 +31,7 @@ const UserController = require("../controllers/users");
  *           schema:
  *             $ref: '#/components/schemas/User'
  *     responses:
- *       200:
+ *       201:
  *         description: The user was successfully created
  *         content:
  *           application/json:
@@ -39,8 +39,8 @@ const UserController = require("../controllers/users");
  *               $ref: '#/components/schemas/User'
  *       500:
  *         description: Some server error
- *       404:
- *         description: not found
+ *       409:
+ *         description: conflict, the user already exists
  */
 router.post('/', UserController.users_signin )
 
@@ -61,8 +61,8 @@ router.post('/', UserController.users_signin )
  *     responses:
  *       200:
  *         description: The user was deleted
- *       404:
- *         description: The user was not found
+ *       500:
+ *         description: fatal error
  */
 router.delete('/:userId', checkAuth, UserController.users_delete)
 
