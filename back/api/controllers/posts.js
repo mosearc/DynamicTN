@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Post = require("../models/post");
 
-
-
 exports.posts_get_all = (req, res, next) => {
 
     Post.find()
@@ -13,8 +11,9 @@ exports.posts_get_all = (req, res, next) => {
                 count: docs.length,
                 posts: docs.map(doc => {
                     return {
-                        title: doc.name,
-                        description: doc.text,
+                        name: doc.name,
+                        text: doc.text,
+                        location: doc.location,
                         postImage: doc.postImage,
                         _id: doc._id,
 
@@ -309,5 +308,3 @@ exports.posts_delete = (req, res, next) => {
         })
 }
 */
-
-

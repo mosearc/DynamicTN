@@ -36,9 +36,8 @@ const postSchema = mongoose.Schema({
     _id: mongoose.Schema.ObjectId,
     name: { type: String, required: true },
     text: { type: String, required: true },
-    postImage: {type: String, default: null },
-    //price: { type: Number, require: true } //deve essere un numero ed è necessario
-
+    location: { type: String, required: false },
+    postImage: { type: String, required: false, default: null },
 })
 
 module.exports = mongoose.model('Post', postSchema);
