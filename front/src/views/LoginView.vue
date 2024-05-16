@@ -1,10 +1,10 @@
 <template>
   <form @submit.prevent="submit" class="form-signin w-100 m-auto">
     <span v-if="logged">
-      Already Signed In!
-<!--
+      Already Logged!
+      <!--
       <button type="button" @click="logout">Logout</button>
--->
+      -->
     </span>
 
     <span v-if="!logged">
