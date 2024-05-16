@@ -1,6 +1,6 @@
 <template>
   <span v-if="registered || logged">
-      You are already registered!
+      Already Signed Up!
     <!--
           <button type="button" @click="logout">LogOut</button>
     -->

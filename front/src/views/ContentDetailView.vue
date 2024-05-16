@@ -4,12 +4,10 @@
             <img v-bind:src="content.imageUrl" />
         </div>
         <div id="content-details">
-            <h1>{{ content.title }}</h1>
+            <h1>{{ content.name }}</h1>
             <p id="location">📍{{ content.location }}</p>
-            <p>{{ content.description }}</p>
+            <p>{{ content.text }}</p>
 			<div v-if="logged">
-            <button class="option">✔️</button>
-            <button class="option">❌</button>
 			</div>
 				<router-link to="/">
 					<button class="option">Indietro</button>

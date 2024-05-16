@@ -23,6 +23,7 @@ export default {
 }
 
 body {
+  text-align: center;
   position: relative;
   background-color: #edf2f4;
 }

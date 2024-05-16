@@ -3,8 +3,8 @@
         <div class="grid-wrap">
             <div v-for="content in contents" class="content-item" v-bind:key="content._id">
                 <img v-bind:src="content.postImage" />
-                <h3 class="content-name">{{ content.title }}</h3>
-                <p class="content-description">{{ content.description }}</p>
+                <h3 class="content-name">{{ content.name }}</h3>
+                <p class="content-description">{{ content.text }}</p>
                 <router-link v-bind:to="'/feed/' + content._id">
                     <button>Vedi post</button>
                 </router-link>
