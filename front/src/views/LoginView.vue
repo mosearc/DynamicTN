@@ -1,13 +1,11 @@
 <template>
   <form @submit.prevent="submit" class="form-signin w-100 m-auto">
-    <span v-if="logged">
+    <span v-if="loggedUser.token">
       Already Logged!
-      <!--
       <button type="button" @click="logout">Logout</button>
-      -->
     </span>
 
-    <span v-if="!logged">
+    <span v-if="!loggedUser.token">
       <h1 class="h3 mb-3 fw-normal"><b>Entra nel tuo account</b></h1>
 
       <input v-model="data.email" type="email" class="form-control" placeholder="Inserisci e-mail">
@@ -22,15 +20,26 @@
 <script lang="ts">
 import {reactive} from "vue";
 import {useRouter} from "vue-router";
-import {logged, setLogged} from "@/global";
+import {clearLoggedUser, logged, loggedUser, setLogged, setLoggedUser} from "@/global";
 
 export default {
   name: 'LoginView',
+  computed: {
+    loggedUser() {
+      return loggedUser
+    }
+  },
   setup() {
     const data = reactive({
       email: '',
       password: '',
+      token: ''
     })
+
+    console.log("1: ")
+    loggedUser.token = localStorage.token;
+    console.log(loggedUser.token)
+    console.log(localStorage.getItem("token"))
 
     const router = useRouter()
 
@@ -45,23 +54,41 @@ export default {
 
       const responseData = await response.json()
       const token = responseData.token
+      data.token = token
+
       console.log(responseData)
       console.log(token)
 
+
+
       if(response.ok){
-        router.push('/')
         localStorage.setItem('token', token)
+
+        await router.push('/')
+
         setLogged(1)
+
+        setLoggedUser(data)
+
       }else{
-        router.push('/login')
+        await router.push('/login')
         alert("WRONG!")
       }
     }
+
+    function logout(){
+      clearLoggedUser()
+      localStorage.removeItem('token')
+      setLogged(0)
+    }
+
+
 
     return {
       data,
       submit,
       logged,
+      logout
     }
   }
 }
