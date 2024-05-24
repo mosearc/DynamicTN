@@ -32,7 +32,7 @@ const UserController = require("../controllers/users");
  *             $ref: '#/components/schemas/User'
  *     responses:
  *       201:
- *         description: The user was successfully created
+ *         description: The user was successfully created and an email was sent
  *         content:
  *           application/json:
  *             schema:
