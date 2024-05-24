@@ -8,7 +8,7 @@
   </span>
 
 
-  <span v-if="!reg.si && !loggedUser.token">
+    <span v-if="!reg.si && !loggedUser.token">
 
       <h1 class="h3 mb-3 fw-normal"><b>Crea un account</b></h1>
 
@@ -42,7 +42,9 @@ export default {
       password: '',
     })
 
-    loggedUser.token = localStorage.token;
+    //loggedUser.token = localStorage.token;
+    loggedUser.token = sessionStorage.token;
+    setReg(sessionStorage.getItem("regist"))
 
     const router = useRouter()
 
@@ -56,15 +58,19 @@ export default {
 
       setRegistered(1)
 
-      setReg(1)
+
+      sessionStorage.setItem('regist', 'ao')
+      console.log(sessionStorage.getItem("regist"))
+      setReg(sessionStorage.getItem("regist"))
 
       await router.push('/login')
     }
 
     function exit(){
       clearLoggedUser()
-      localStorage.removeItem('token')
-      setReg(0)
+      sessionStorage.removeItem('token')
+      sessionStorage.removeItem('regist')
+      setReg(sessionStorage.getItem("regist"))
     }
 
     return {

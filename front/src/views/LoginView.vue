@@ -37,9 +37,11 @@ export default {
     })
 
     console.log("1: ")
-    loggedUser.token = localStorage.token;
+    //loggedUser.token = localStorage.token;
+    loggedUser.token = sessionStorage.token;
     console.log(loggedUser.token)
-    console.log(localStorage.getItem("token"))
+    //console.log(localStorage.getItem("token"))
+    console.log(sessionStorage.getItem("token"))
 
     const router = useRouter()
 
@@ -62,7 +64,8 @@ export default {
 
 
       if(response.ok){
-        localStorage.setItem('token', token)
+        //localStorage.setItem('token', token)
+        sessionStorage.setItem('token', token)
 
         await router.push('/')
 
@@ -78,7 +81,8 @@ export default {
 
     function logout(){
       clearLoggedUser()
-      localStorage.removeItem('token')
+      //localStorage.removeItem('token')
+      sessionStorage.removeItem('token')
       setLogged(0)
     }
 
