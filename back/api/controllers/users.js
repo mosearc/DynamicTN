@@ -1,10 +1,35 @@
 const mongoose = require('mongoose');
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const nodemailer = require("nodemailer");
 
 
 
 exports.users_signin = (req, res, next) => {
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        host: "smtp.gmail.email",
+        port: 587,
+        secure: false, // Use `true` for port 465, `false` for all other ports
+        auth: {
+            user: "dynamictn9@gmail.com",
+            pass: "xekk qugc mpzm pkxh",
+        },
+    });
+
+    let mailOptions = {
+        from: {
+            name: 'DynamicTN',
+            address: 'dynamictn9@gmail.com',
+        }, // sender address
+        to: ["mose.arcaro@gmail.com"],//"bar@example.com, baz@example.com", // list of receivers
+        subject: "Welcome in DynamicTN! ✔", // Subject line
+        text: "Hello world?", // plain text body
+        //html: "<b>Hello world?</b>", // html body
+    }
+
+
     User.find({ email: req.body.email })
         .exec()
         .then(user => {
@@ -13,6 +38,10 @@ exports.users_signin = (req, res, next) => {
                     message: 'User already exists'
                 })
             } else {
+
+                mailOptions.to = [req.body.email];
+                mailOptions.text = "HI! Here are your credentials! \nYour Mail: " + req.body.email + ", \nYour Password: " + req.body.password
+
                 bcrypt.hash(req.body.password, 10, (err, hash) => {
                     if (err) {
                         return res.status(500).json({
@@ -27,9 +56,25 @@ exports.users_signin = (req, res, next) => {
                         user
                             .save()
                             .then(result => {
+
+
+
+                                const sendMail = async (transporter, mailOptions) => {
+                                    try {
+                                        await transporter.sendMail(mailOptions)
+                                        console.log("Email sent! ")
+                                    } catch {
+                                        console.error(error)
+                                    }
+                                }
+
+                                sendMail(transporter, mailOptions)
+
+
+
                                 console.log(result)
                                 res.status(201).json({
-                                    message: 'User saved successfully.',
+                                    message: 'User saved successfully. A mail was sent to you',
                                 })
                             })
                             .catch(err => {
