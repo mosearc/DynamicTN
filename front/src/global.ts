@@ -4,10 +4,10 @@ let logged: undefined
 let registered: undefined
 
 const reg = reactive({
-   si: 0
+   si: undefined
 })
 
-function setReg (x:number){
+function setReg (x: any){
    reg.si = x
 }
 
