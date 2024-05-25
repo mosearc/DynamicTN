@@ -8,7 +8,7 @@
     "start": "nodemon server.js",
     "front": "cd ../front && npm run serve",
     "buildf": "cd ../front && npm run build",
-    "buildb": "npm i && cd ../front npm i && cd ../back npm run buildf",
+    "buildb": "npm i && npm i dotenv && cd ../front npm i && npm i dotenv && cd ../back npm run buildf",
     "build_full_app": "concurrently \"npm run buildb\" \"npm run buildf\"",
     "start_full_app": "concurrently \"npm start\" \"npm run front\""
   },
