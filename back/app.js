@@ -6,13 +6,14 @@ const mongoose = require('mongoose');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const options = require('./swagger')
+require('dotenv').config()
 
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
 const usersRoutes = require('./api/routes/users');
 const authRoutes = require('./api/routes/auth');
 
-mongoose.connect('mongodb+srv://mosearcaro:Hni31CRlF6xbwoJk@cluster0.7f8xrkp.mongodb.net/mevn_auth?retryWrites=true&w=majority&appName=Cluster0', {
+mongoose.connect(process.env.DATABASE_URI,{
     //useMongoClient: true
 })
 
