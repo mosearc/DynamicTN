@@ -28,7 +28,7 @@ export default {
         };
     },
     async created() {
-        const result = await axios.get(`http://localhost:3000/posts/${this.$route.params.id}`);
+        const result = await axios.get(`https://dynamictn-2.onrender.com/posts/${this.$route.params.id}`);
         const content = result.data.post;
         this.content = content;
     }
