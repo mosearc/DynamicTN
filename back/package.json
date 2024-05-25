@@ -7,6 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js",
     "front": "cd ../front && npm run serve",
+    "buildf": "cd ../front && npm run build",
+    "buildb": "npm i",
+    "builde": "cd .. && npm i",
+    "build_full_app": "concurrently \"npm run buildb\" \"npm run buildf\" \"npm run builde\"",
     "start_full_app": "concurrently \"npm start\" \"npm run front\""
   },
   "author": "",
