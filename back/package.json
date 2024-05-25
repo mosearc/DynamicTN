@@ -8,7 +8,7 @@
     "start": "nodemon server.js",
     "front": "cd ../front && npm run serve",
     "buildf": "cd ../front && npm run build",
-    "buildb": "npm i && npm install @vue/cli && npm i @vue/cli-service && npm i @vue/cli-plugin-babel && npm run buildf",
+    "buildb": "npm i && cd ../front npm i && npm run buildf",
     "build_full_app": "concurrently \"npm run buildb\" \"npm run buildf\"",
     "start_full_app": "concurrently \"npm start\" \"npm run front\""
   },
