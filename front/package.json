@@ -5,12 +5,19 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "back": "cd ../back && npm start",
+    "buildf": "npm i && npm i dotenv && npm run build",
+    "buildb": "cd ../back npm run buildb",
+    "build_full": "npm run buildf && npm run buildb",
+    "start_full": "concurrently \"npm run back\" \"npm run serve\""
   },
   "dependencies": {
     "axios": "^1.6.8",
     "core-js": "^3.8.3",
+    "dotenv": "^16.4.5",
     "nodemailer": "^6.9.13",
+    "serve": "^14.2.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
