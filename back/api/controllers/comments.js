@@ -30,13 +30,14 @@ exports.comments_get_all = (req, res, next) => {
 }
 
 exports.comments_create = (req, res, next) => {
-    Post.findById(req.body.postId)
+    Post.find({post:req.body.postId})
         .then(post => {
             if (!post){
                 return res.status(404).json({
                     message: 'Post not found'
                 })
             }
+
             const comment = new Comment({
                 _id: new mongoose.Types.ObjectId(),
                 text: req.body.text,
@@ -63,6 +64,26 @@ exports.comments_create = (req, res, next) => {
             console.log(err)
             res.status(500).json({error: err})
         });
+}
+
+exports.comments_get_by_PostId = (req,res,next) => {
+	Comment.find({post:req.params.postId})
+		.exec()
+		.then(comments=> {
+			if(comments === undefined){
+				res.status(404).json({
+					message:"no comments in this post"
+				})
+			}
+			res.status(200).json({
+				comments:comments
+			})
+		})
+		.catch(err => {
+			res.status(500).json({
+				error:err
+			})
+		})
 }
 
 exports.comments_get_by_id = (req, res, next) => {

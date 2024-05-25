@@ -9,10 +9,15 @@
             <p>{{ content.text }}</p>
 			<div v-if="logged">
 			</div>
+			<div>
 				<router-link to="/">
 					<button class="option">Indietro</button>
 				</router-link>
+				<router-link v-bind:to="/comments/+this.content._id">
+					<button class="option">Mostra commenti</button>
+				</router-link>
 			</div>
+		</div>
     </div>
 </template>
 
@@ -31,7 +36,7 @@ export default {
         const result = await axios.get(`http://localhost:3000/posts/${this.$route.params.id}`);
         const content = result.data.post;
         this.content = content;
-    }
+    },
 };
 </script>
 
