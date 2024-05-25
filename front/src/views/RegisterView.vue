@@ -50,7 +50,7 @@ export default {
 
     const submit = async () => {
       //console.log(data)
-      await fetch('http://localhost:3000/users', {
+      const response = await fetch('http://localhost:3000/users', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),
@@ -59,11 +59,18 @@ export default {
       setRegistered(1)
 
 
-      sessionStorage.setItem('regist', 'ao')
-      console.log(sessionStorage.getItem("regist"))
-      setReg(sessionStorage.getItem("regist"))
+      if(response.ok){
+        sessionStorage.setItem('regist', 'ao')
+        console.log(sessionStorage.getItem("regist"))
+        setReg(sessionStorage.getItem("regist"))
 
-      await router.push('/login')
+        await router.push('/login')
+
+      }else{
+        await router.push('/register')
+        alert("USER ALREADY EXIST!")
+      }
+
     }
 
     function exit(){
