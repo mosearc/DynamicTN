@@ -42,7 +42,7 @@ export default {
 
     const submit = async () => {
 
-      const response = await fetch('http://localhost:3000/postCreation', {
+      const response = await fetch('http://localhost:3000/post', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},
         credentials: 'include',
