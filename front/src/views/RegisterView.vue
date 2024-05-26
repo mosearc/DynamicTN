@@ -50,7 +50,7 @@ export default {
 
     const submit = async () => {
       //console.log(data)
-      const response = await fetch('https://dynamictn-back-main.onrender.com', {
+      const response = await fetch('https://dynamictn-back-main.onrender.com/users', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),
