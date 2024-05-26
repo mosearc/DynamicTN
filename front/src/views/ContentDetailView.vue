@@ -28,7 +28,7 @@ export default {
         };
     },
     async created() {
-        const result = await axios.get(`https://dynamictn-back-main.onrender.com/${this.$route.params.id}`);
+        const result = await axios.get(`https://dynamictn-back-main.onrender.com/posts/${this.$route.params.id}`);
         const content = result.data.post;
         this.content = content;
     }
