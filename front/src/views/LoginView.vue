@@ -47,7 +47,7 @@ export default {
 
     const submit = async () => {
 
-      const response = await fetch('https://dynamictn-2.onrender.com/auth', {
+      const response = await fetch('https://dynamictn-back-main.onrender.com', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',
