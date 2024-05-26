@@ -26,7 +26,7 @@ export default {
         };
     },
     async created() {
-		const result = await axios.get('https://dynamictn-back-main.onrender.com').catch((err)=>{
+		const result = await axios.get('https://dynamictn-back-main.onrender.com/posts').catch((err)=>{
 			console.log(err);
 		});
 
