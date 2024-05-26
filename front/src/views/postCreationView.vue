@@ -42,7 +42,7 @@ export default {
 
     const submit = async () => {
 
-      const response = await fetch('https://dynamictn-back-main.onrender.com/postCreation', {
+      const response = await fetch('http://localhost:3000/postCreation', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},
         credentials: 'include',
