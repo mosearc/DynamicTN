@@ -65,6 +65,7 @@ export default {
         setReg(sessionStorage.getItem("regist"))
 
         await router.push('/login')
+        alert("ACCOUNT CREATO!")
 
       }else{
         await router.push('/register')
