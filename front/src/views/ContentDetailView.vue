@@ -1,7 +1,7 @@
 <template>
     <div id="page-wrap">
         <div id="img-wrap">
-            <img v-bind:src="content.postImage" />
+            <img v-if="content.postImage" v-bind:src="'http://localhost:3000/'+content.postImage" />
         </div>
         <div id="content-details">
             <h1>{{ content.name }}</h1>

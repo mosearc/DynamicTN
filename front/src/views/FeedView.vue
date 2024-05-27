@@ -1,8 +1,18 @@
 <template>
+	
     <div id="page-wrap">
+		<div class="search">
+				<form @submit.prevent="searchPost" >
+				<input v-model="search" class="searchInput"  placeholder="cerca post"/>
+				&nbsp;
+				<button class="btn btn-primary submit" type="submit">cerca</button>
+				&nbsp;
+				<button @click="showAllPosts()" class="btn btn-primary home">tutti i post</button>
+			</form>
+		</div>
         <div class="grid-wrap">
             <div v-for="content in contents" class="content-item" v-bind:key="content._id">
-                <img v-bind:src="content.postImage" />
+                <img v-if="content.postImage" v-bind:src="'http://localhost:3000/'+content.postImage" />
                 <h3 class="content-name">{{ content.name }}</h3>
                 <p class="content-description">{{ content.text }}</p>
                 <router-link v-bind:to="'/feed/' + content._id">
@@ -19,23 +29,43 @@
 <script>
 import axios from 'axios';
 export default {
-    name: 'FeedView',
+    name: 'HomeView',
     data() {
         return {
             contents: [],
+			search:''
         };
     },
-    async created() {
-		const result = await axios.get('http://localhost:3000/posts').catch((err)=>{
-			console.log(err);
-		});
+	
+	methods:{
+		async searchPost(){
+			const params = {name:this.search}
 
+			const result = await axios.get("http://localhost:3000/posts",{
+				params
+			}).then((res)=>{
+				this.contents = res.data.posts
+			}).catch((err)=>{
+				console.log(err)
+			});
+		},
 
-		if(result !== undefined){
-			const contents = result.data.posts;
-			this.contents = contents;
+		async showAllPosts(){
+			const result = await axios.get('http://localhost:3000/posts').catch((err)=>{
+				console.log(err);
+			}).then((res)=>{
+				this.contents = res.data.posts;
+			}).catch((err)=>{
+				alert(err);
+			});
 		}
+	},
+
+    async created() {
+		this.showAllPosts()
     }
+
+
 };
 </script>
 
@@ -60,9 +90,35 @@ export default {
     background-color: white;
 }
 
+
+.search > form{
+	display:flex;
+	justify-content:space-between;
+	align-items:center;
+	vertical-align:bottom;
+}
+
+input.searchInput{
+	width:80%; 
+	text-align:center;
+	border-radius:8px;
+	border:1px solid;
+}
+
+button.submit{
+	width:20%;
+}
+
+button.home{
+	width:20%;
+	background-color:black;
+	border:none;
+}
+
 .content-name {
     margin-bottom: 0;
 }
+
 
 img {
     width: 200px;

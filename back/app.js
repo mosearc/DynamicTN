@@ -7,6 +7,7 @@ const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const options = require('./swagger')
 require('dotenv').config()
+const path = require('path')
 
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
@@ -24,7 +25,7 @@ mongoose.connect(process.env.DATABASE_URI,{
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(path.join(__dirname,'/uploads')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

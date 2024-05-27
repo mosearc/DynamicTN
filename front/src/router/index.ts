@@ -11,7 +11,7 @@ import CreateCommentView from '@/views/CreateCommentView.vue'
 const routes: Array<RouteRecordRaw> = [
   {path: '/login', component: LoginView},
   {path: '/register', component: RegisterView},
-  {path: '/',name: 'Feed',component: FeedView},
+  {path: '/',name: 'Home',component: FeedView},
   {path: '/feed/:id',name: 'ContentDetail',component: ContentDetailView},
   {path: '/comments/:id',name: 'Comments',component: CommentsView},
   {path: '/createComment/:id',name: 'createComment',component: CreateCommentView},
