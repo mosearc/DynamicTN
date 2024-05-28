@@ -56,7 +56,7 @@ export default {
       }else{
         if(response.status == 401){
           await router.push('/login')
-          alert("Token expired")
+          alert("Token expires")
         }else{
           await router.push('/postCreation')
           alert("Post creation failed, retry")
