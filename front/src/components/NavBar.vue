@@ -15,7 +15,7 @@
             <router-link to="/register" class="nav-link active">Registrati</router-link>
           </li>
         </ul>
-
+    </div>
     </div>
   </nav>
 
