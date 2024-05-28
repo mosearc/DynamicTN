@@ -219,6 +219,28 @@ paths:
           description: Some server error
         404:
           description: post not found
+  /comments/fromPost/{id}:
+  	get:
+      summary: get the comment associated with the id of the post
+      tags: [ Comment ]
+      parameters:
+        - in: path
+		- name: id
+		- schema:
+		    type: string
+		  required: true
+		  description: the post id
+      responses:
+        201:
+          description: all comments of the post with that id
+		  content:
+            application/json:
+			  schema:
+			    $ref: '#/components/schemas/Comment'
+		404:
+		  description: comment not present in the post
+		500:
+		  description: fatal error
   /comments/{id}:
     get:
       summary: get the comment with the id

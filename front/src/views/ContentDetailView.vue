@@ -1,7 +1,7 @@
 <template>
     <div id="page-wrap">
         <div id="img-wrap">
-            <img v-bind:src="content.postImage" />
+            <img v-if="content.postImage" v-bind:src="'http://localhost:3000/'+content.postImage" />
         </div>
         <div id="content-details">
             <h1>{{ content.name }}</h1>
@@ -9,10 +9,15 @@
             <p>{{ content.text }}</p>
 			<div v-if="logged">
 			</div>
+			<div>
 				<router-link to="/">
 					<button class="option">Indietro</button>
 				</router-link>
+				<router-link v-bind:to="/comments/+this.content._id">
+					<button class="option">Mostra commenti</button>
+				</router-link>
 			</div>
+		</div>
     </div>
 </template>
 
@@ -31,7 +36,7 @@ export default {
         const result = await axios.get(`http://localhost:3000/posts/${this.$route.params.id}`);
         const content = result.data.post;
         this.content = content;
-    }
+    },
 };
 </script>
 

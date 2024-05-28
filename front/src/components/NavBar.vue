@@ -3,10 +3,7 @@
     <div class="container-fluid">
       <router-link to="/" class="navbar-brand"><b>DynamicTN</b></router-link>
 
-<!--      <div v-if="sessionStorage.token">
-
-      </div>-->
-
+      <div v-if="!logged">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
             <router-link to="/postCreation" class="nav-link active">Crea</router-link>

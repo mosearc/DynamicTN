@@ -24,7 +24,6 @@ exports.auth_login = (req, res, next) => {
                             userId: user[0]._id
                         },
                         process.env.JWT_KEY,
-                        //"secret" /*process.env.JWT_KEY*/,
                         {
                             expiresIn: "1h"
                         },

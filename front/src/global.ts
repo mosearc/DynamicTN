@@ -19,12 +19,17 @@ function setRegistered (x: any) {
    registered = x
 }
 
+
 const loggedUser = reactive({
    token: undefined,
    email: undefined,
    id: undefined,
    self: undefined,
 })
+
+function isLogged(){
+	return loggedUser.token !== undefined
+}
 
 function setLoggedUser (data: any) {
    loggedUser.token = data.token
@@ -41,4 +46,4 @@ function clearLoggedUser () {
 }
 
 
-export {logged, setLogged, registered, setRegistered, loggedUser, setLoggedUser, clearLoggedUser, reg, setReg}
+export {logged, setLogged, isLogged,registered, setRegistered, loggedUser, setLoggedUser, clearLoggedUser, reg, setReg}

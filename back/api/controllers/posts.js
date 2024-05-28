@@ -2,8 +2,12 @@ const mongoose = require('mongoose');
 const Post = require("../models/post");
 
 exports.posts_get_all = (req, res, next) => {
+	let search = {};
 
-    Post.find()
+	if(req.query.name !== '' && req.query.name !== undefined)
+		search = {name:req.query.name}
+
+    Post.find(search)
         .select('name text _id postImage')
         .exec()
         .then(docs => {
@@ -24,6 +28,7 @@ exports.posts_get_all = (req, res, next) => {
                     }
                 })
             }
+			console.log(docs)
             if (docs.length > 0) {
                 res.status(200).json(risp);
             }else{
