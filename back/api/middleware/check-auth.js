@@ -3,9 +3,8 @@ const jwt = require("jsonwebtoken");
 module.exports = (req, res, next) => {
     try{
         const token = req.headers.authorization.split(" ")[1]; //token meglio passarlo nell'hearder
-
         console.log(token);
-        const decoded = jwt.verify(token, "secret"); //v16 per token nel body
+        const decoded = jwt.verify(token, process.env.JWT_KEY); //v16 per token nel body
         req.userData = decoded;
         next()
     } catch (error){
