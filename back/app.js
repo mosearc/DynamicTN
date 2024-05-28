@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan')
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const swaggerJsDoc = require('swagger-jsdoc');
@@ -9,6 +9,9 @@ const options = require('./swagger')
 require('dotenv').config()
 const path = require('path')
 
+const authRoutes = require('./api/routes/auth');
+const commentsRoutes = require('./api/routes/comments');
+const pollRoutes = require('./api/routes/polls');
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
 const usersRoutes = require('./api/routes/users');
@@ -30,43 +33,43 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use((req, res, next) => {
-    //res.header( 'Access-Control-Allow-Origin', '*');
+    // res.header( 'Access-Control-Allow-Origin', '*');
     res.header("Access-Control-Allow-Origin", "http://localhost:8080");
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Allow-Credentials', 'true');
-    if(req.method === 'OPTIONS'){
+    if (req.method === 'OPTIONS') {
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH');
-        return res.status(200).json({})
+        return res.status(200).json({});
     }
     next();
-})
-
+});
 
 
 app.use('/posts', postsRoutes);
 app.use('/comments', commentsRoutes);
+app.use('/polls', pollRoutes);
+app.use('/posts', postsRoutes);
 app.use('/users', usersRoutes);
 app.use('/auth', authRoutes);
 
-const specs = swaggerJsDoc(options)
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+const specs = swaggerJsDoc(options);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-
-//error handler se non esiste
-app.use((req,res,next)=>{
+// error handler se non esiste
+app.use((req, res, next) => {
     const error = new Error('Not Found');
     error.status = 404;
-    next(error)
-})
+    next(error);
+});
 
-app.use((error,req,res,next)=>{
-    res.status(error.status || 500)
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
     res.json({
         error: {
-            message: error.message,
+            message: error.message
         }
-    })
-})
+    });
+});
 
 
 

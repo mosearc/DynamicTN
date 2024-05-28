@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
 const checkAuth = require('../middleware/check-auth');
+const checkAdmin = require('../middleware/check-role');
+
 
 
 const PostController = require('../controllers/posts');
@@ -153,7 +155,7 @@ router.get('/:postId', PostController.posts_get_by_id)
  *      500:
  *        description: Some error happened
  */
-router.patch('/:postId', checkAuth, PostController.posts_modify)
+router.patch('/:postId', checkAuth, checkAdmin,PostController.posts_modify)
 
 /**
  * @swagger
@@ -175,6 +177,6 @@ router.patch('/:postId', checkAuth, PostController.posts_modify)
  *       500:
  *         description: fatal error
  */
-router.delete('/:postId', checkAuth, PostController.posts_delete)
+router.delete('/:postId', checkAuth, checkAdmin,PostController.posts_delete)
 
 module.exports = router

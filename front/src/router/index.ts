@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import RegisterView from "@/views/RegisterView.vue";
 import FeedView from '@/views/FeedView.vue'
 import ContentDetailView from '@/views/ContentDetailView.vue'
+import postCreationView from "@/views/postCreationView.vue";
 import CommentsView from '@/views/CommentsView.vue'
 import CreateCommentView from '@/views/CreateCommentView.vue'
 
@@ -11,8 +12,9 @@ import CreateCommentView from '@/views/CreateCommentView.vue'
 const routes: Array<RouteRecordRaw> = [
   {path: '/login', component: LoginView},
   {path: '/register', component: RegisterView},
-  {path: '/',name: 'Home',component: FeedView},
+  {path: '/',name: 'Feed',component: FeedView},
   {path: '/feed/:id',name: 'ContentDetail',component: ContentDetailView},
+  {path: '/postCreation', component: postCreationView},
   {path: '/comments/:id',name: 'Comments',component: CommentsView},
   {path: '/createComment/:id',name: 'createComment',component: CreateCommentView},
 ]

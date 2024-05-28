@@ -7,7 +7,7 @@ const User = require('../models/user');
 const {hash} = require("bcrypt");
 const Post = require("../models/post");
 const checkAuth = require('../middleware/check-auth');
-
+const checkAdmin = require('../middleware/check-role');
 
 const UserController = require("../controllers/users");
 
@@ -32,7 +32,7 @@ const UserController = require("../controllers/users");
  *             $ref: '#/components/schemas/User'
  *     responses:
  *       201:
- *         description: The user was successfully created
+ *         description: The user was successfully created and an email was sent
  *         content:
  *           application/json:
  *             schema:
@@ -64,7 +64,7 @@ router.post('/', UserController.users_signin )
  *       500:
  *         description: fatal error
  */
-router.delete('/:userId', checkAuth, UserController.users_delete)
+router.delete('/:userId', checkAuth, checkAdmin, UserController.users_delete)
 
 /**
  * @swagger
@@ -89,7 +89,7 @@ router.get('/', UserController.users_get_all)
  * @swagger
  * /users/{email}:
  *   get:
- *     summary: get the user with the email
+ *     summary: get the user by the email
  *     tags: [User]
  *     parameters:
  *       - in: path

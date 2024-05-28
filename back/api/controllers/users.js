@@ -14,7 +14,7 @@ exports.users_signin = (req, res, next) => {
         secure: false, // Use `true` for port 465, `false` for all other ports
         auth: {
             user: "dynamictn9@gmail.com",
-            pass: process.env.MAIL_PASSW, 
+            pass: process.env.MAIL_PASSW,
         },
     });
 

@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const checkAuth = require('../middleware/check-auth');
+const checkAdmin = require('../middleware/check-role');
+
 
 
 const Comment = require('../models/comment');
@@ -145,7 +147,7 @@ router.get("/fromPost/:postId", CommentController.comments_get_by_PostId)
  *      500:
  *        description: Some error happened
  */
-router.patch("/:commentId", checkAuth, CommentController.comments_modify)
+router.patch("/:commentId", checkAuth, checkAdmin,CommentController.comments_modify)
 
 /**
  * @swagger
@@ -167,6 +169,6 @@ router.patch("/:commentId", checkAuth, CommentController.comments_modify)
  *       500:
  *         description: fatal error
  */
-router.delete("/:commentId", checkAuth, CommentController.comments_delete)
+router.delete("/:commentId", checkAuth, checkAdmin,CommentController.comments_delete)
 
 module.exports = router;
