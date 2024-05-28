@@ -9,8 +9,6 @@ const options = require('./swagger')
 require('dotenv').config()
 const path = require('path')
 
-const authRoutes = require('./api/routes/auth');
-const commentsRoutes = require('./api/routes/comments');
 const pollRoutes = require('./api/routes/polls');
 const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
