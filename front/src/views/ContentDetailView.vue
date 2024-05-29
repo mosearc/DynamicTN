@@ -16,6 +16,7 @@
 				<router-link v-bind:to="/comments/+this.content._id">
 					<button class="option">Mostra commenti</button>
 				</router-link>
+        <button type="button" @click="elimina">elimina</button>
 			</div>
 		</div>
     </div>
@@ -24,12 +25,17 @@
 <script>
 import axios from 'axios';
 import {logged, setLogged} from "@/global";
+import router from "@/router";
+
+
+
 
 export default {
     name: 'ContentDetailView',
     data() {
         return {
             content: [],
+
         };
     },
     async created() {
@@ -37,6 +43,26 @@ export default {
         const content = result.data.post;
         this.content = content;
     },
+    methods: {
+      async elimina() {
+        await fetch(`http://localhost:3000/posts/${this.$route.params.id}`, {
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},
+          credentials: 'include',
+        })
+            .then(async (response) => {
+              if (response.ok) {
+                await router.push('/')
+              } else {
+                alert("seems you aren't admin")
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+      }
+    }
+
 };
 </script>
 
