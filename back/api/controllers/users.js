@@ -29,7 +29,6 @@ exports.users_signin = (req, res, next) => {
         //html: "<b>Hello world?</b>", // html body
     }
 
-
     User.find({ email: req.body.email })
         .exec()
         .then(user => {
