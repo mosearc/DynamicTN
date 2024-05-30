@@ -36,7 +36,7 @@ export default{
 		console.log(this.loggedUser)
 		this.postId = this.$route.params.id
 		const result = await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.postId}`)
-
+    console.log("42")
 		if(result.data !== undefined)
 			this.comments = result.data.comments
 	}

@@ -38,6 +38,7 @@ export default {
   },
   methods: {
     async vote(answer) {
+      console.log("42")
       try {
         const result = await axios.post(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}/vote`, { answer: answer.answer });
         this.poll = result.data.poll; // Update poll data with new votes

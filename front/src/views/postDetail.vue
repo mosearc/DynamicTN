@@ -49,6 +49,7 @@ export default {
   },
     methods: {
       async elimina() {
+        console.log("42")
         await fetch(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`, {
           method: 'DELETE',
           headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},

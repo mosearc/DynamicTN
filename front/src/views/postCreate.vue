@@ -31,17 +31,12 @@ export default {
       token: ''
     })
 
-    console.log("2: ")
-    //loggedUser.token = localStorage.token;
     loggedUser.token = sessionStorage.token;
-    console.log(loggedUser.token)
-    //console.log(localStorage.getItem("token"))
-    console.log(sessionStorage.getItem("token"))
 
     const router = useRouter()
 
     const submit = async () => {
-
+      console.log("42")
       const response = await fetch(process.env.VUE_APP_BACK_PATH + 'posts', {
         method: 'POST',
         headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},

@@ -35,12 +35,15 @@ export default {
   },
   methods: {
     addAnswer() {
+      console.log("42")
       this.answers.push({ answer: '' });
     },
     removeAnswer(index) {
+      console.log("42")
       this.answers.splice(index, 1);
     },
     createPoll() {
+      console.log("42")
       const answersToSend = this.answers.map(answer => ({ answer: answer.answer }));
 
       axios.post(process.env.VUE_APP_BACK_PATH + 'polls', {

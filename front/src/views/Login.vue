@@ -36,17 +36,13 @@ export default {
       token: ''
     })
 
-    console.log("1: ")
-    //loggedUser.token = localStorage.token;
     loggedUser.token = sessionStorage.token;
-    console.log(loggedUser.token)
-    //console.log(localStorage.getItem("token"))
     console.log(sessionStorage.getItem("token"))
 
     const router = useRouter()
 
     const submit = async () => {
-
+      console.log("42")
       const response = await fetch(process.env.VUE_APP_BACK_PATH + 'auth', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -57,11 +53,6 @@ export default {
       const responseData = await response.json()
       const token = responseData.token
       data.token = token
-
-      console.log(responseData)
-      console.log(token)
-
-
 
       if(response.ok){
         //localStorage.setItem('token', token)
@@ -80,13 +71,12 @@ export default {
     }
 
     function logout(){
+      console.log("42")
       clearLoggedUser()
       //localStorage.removeItem('token')
       sessionStorage.removeItem('token')
       setLogged(0)
     }
-
-
 
     return {
       data,
@@ -97,48 +87,4 @@ export default {
   }
 }
 
-/* export default {
-  name: 'LoginView',
-  setup() {
-    const data = reactive({
-      email: '',
-      password: '',
-    })
-
-    const router = useRouter()
-
-    const submit = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/auth', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(data),
-        })
-
-        if (!response.ok) {
-          throw new Error('Failed to login')
-        }
-
-        const responseData = await response.json()
-
-        // Assuming the token is returned as 'token' in the response
-        const token = responseData.token
-        console.log(token)
-
-        // Set the token in a cookie
-        document.cookie = `authToken=${token};path=/`
-
-        await router.push('/')
-      } catch (error) {
-        console.error('Error occurred during login:', error)
-        // Handle error or display error message to the user
-      }
-    }
-
-    return {
-      data,
-      submit
-    }
-  }
-} */
 </script>

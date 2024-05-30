@@ -60,6 +60,7 @@ export default {
 
   methods: {
 		async searchPost() {
+      console.log("42")
 			const params = { name: this.search };
 
 			const result = await axios.get(process.env.VUE_APP_BACK_PATH + "posts", {
@@ -72,6 +73,7 @@ export default {
 		},
 
 		async showAllPosts() {
+      console.log("42")
 			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').catch((err) => {
 				console.log(err);
 			}).then((res) => {

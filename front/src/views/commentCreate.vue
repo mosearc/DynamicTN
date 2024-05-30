@@ -25,6 +25,8 @@ export default{
 	},
 	methods:{
 		async submit(){
+      console.log("42")
+
 			const body = {text:this.text,postId:this.$route.params.id}
 
 			const result = await axios.post(process.env.VUE_APP_BACK_PATH + "comments",body,{

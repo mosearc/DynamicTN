@@ -19,10 +19,6 @@ mongoose.connect(process.env.DATABASE_URI,{
     //useMongoClient: true
 })
 
-/*mongoose.connect(process.env.DATABASE_URI, {
-    //useMongoClient: true
-})*/
-
 mongoose.Promise = global.Promise;
 
 app.use(morgan('dev'));

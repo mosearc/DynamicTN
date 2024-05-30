@@ -7,7 +7,6 @@
 
   </span>
 
-
     <span v-if="!reg.si && !loggedUser.token">
 
       <h1 class="h3 mb-3 fw-normal"><b>Crea un account</b></h1>
@@ -42,7 +41,6 @@ export default {
       password: '',
     })
 
-    //loggedUser.token = localStorage.token;
     loggedUser.token = sessionStorage.token;
     setReg(sessionStorage.getItem("regist"))
 
@@ -57,7 +55,6 @@ export default {
       })
 
       setRegistered(1)
-
 
       if(response.ok){
         sessionStorage.setItem('regist', 'ao')
@@ -75,6 +72,7 @@ export default {
     }
 
     function exit(){
+      console.log("42")
       clearLoggedUser()
       sessionStorage.removeItem('token')
       sessionStorage.removeItem('regist')
