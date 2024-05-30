@@ -12,7 +12,7 @@
     <div class="grid-wrap">
       <div v-for="content in contents" v-bind:key="content._id" class="content-item">
         <template v-if="content.postImage">
-          <img v-if="content.postImage" v-bind:src="'http://localhost:3000/'+content.postImage" class="content-image" />
+          <img v-if="content.postImage" v-bind:src="backPath+content.postImage" class="content-image" />
         </template>
         <h3 class="content-name">{{ content.name || content.question }}</h3>
         <p class="content-description">{{ content.text || '' }}</p>
@@ -52,12 +52,17 @@ export default {
       search: ''
     };
   },
+  computed: {
+    backPath() {
+      return process.env.VUE_APP_BACK_PATH;
+    }
+  },
 
   methods: {
 		async searchPost() {
 			const params = { name: this.search };
 
-			const result = await axios.get("http://localhost:3000/posts", {
+			const result = await axios.get(process.env.VUE_APP_BACK_PATH + "posts", {
 				params
 			}).then((res) => {
 				this.contents = res.data.posts;
@@ -67,7 +72,7 @@ export default {
 		},
 
 		async showAllPosts() {
-			const result = await axios.get('http://localhost:3000/posts').catch((err) => {
+			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').catch((err) => {
 				console.log(err);
 			}).then((res) => {
 				this.contents = res.data.posts;
@@ -80,8 +85,8 @@ export default {
   async created() {
     this.showAllPosts();
     try {
-      const postsResult = await axios.get('http://localhost:3000/posts');
-      const pollsResult = await axios.get('http://localhost:3000/polls');
+      const postsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts');
+      const pollsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'polls');
       const contents = [...postsResult.data.posts, ...pollsResult.data.polls];
       this.contents = contents;
     } catch (err) {

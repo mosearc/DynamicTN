@@ -43,7 +43,7 @@ export default {
     createPoll() {
       const answersToSend = this.answers.map(answer => ({ answer: answer.answer }));
 
-      axios.post('http://localhost:3000/polls', {
+      axios.post(process.env.VUE_APP_BACK_PATH + 'polls', {
         question: this.question,
         answers: answersToSend
       })

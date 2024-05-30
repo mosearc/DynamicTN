@@ -30,7 +30,7 @@ export default {
     },
     async created() {
     try {
-      const result = await axios.get(`http://localhost:3000/polls/${this.$route.params.id}`);
+      const result = await axios.get(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
       this.poll = result.data.poll;
     } catch (error) {
       console.error('Error fetching poll:', error);
@@ -39,7 +39,7 @@ export default {
   methods: {
     async vote(answer) {
       try {
-        const result = await axios.post(`http://localhost:3000/polls/${this.$route.params.id}/vote`, { answer: answer.answer });
+        const result = await axios.post(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}/vote`, { answer: answer.answer });
         this.poll = result.data.poll; // Update poll data with new votes
       } catch (error) {
         console.error('Error voting:', error);
