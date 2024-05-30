@@ -7,24 +7,23 @@
             <h1>{{ content.name }}</h1>
             <p id="location">📍{{ content.location }}</p>
             <p>{{ content.text }}</p>
-			<div v-if="logged">
-			</div>
-				<router-link to="/">
-					<button class="option">Indietro</button>
-				</router-link>
-			</div>
+			<div v-if="logged"></div>
+			<router-link to="/">
+				<button class="back-btn">Indietro</button>
+			</router-link>
+		</div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import {logged, setLogged} from "@/global";
+import { logged, setLogged } from "@/global";
 
 export default {
-    name: 'ContentDetailView',
+    name: 'PostDetail',
     data() {
         return {
-            content: [],
+            content: []
         };
     },
     async created() {
@@ -60,11 +59,6 @@ img {
     position: absolute;
     top: 24px;
     right: 16px;
-}
-
-button.option {
-    width: 100%;
-    margin: 1px;
 }
 
 #location {

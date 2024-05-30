@@ -53,10 +53,12 @@ exports.polls_get_by_id = (req, res, next) => {
 };
 
 exports.polls_create = (req, res, next) => {
+    const answers = req.body.answers.map(answer => ({ answer: answer.answer }));
+
     const poll = new Poll({
         _id: new mongoose.Types.ObjectId(),
         question: req.body.question,
-        answers: req.body.answers.map(answer => ({ answer }))
+        answers: answers
     });
 
     poll.save()
@@ -67,6 +69,7 @@ exports.polls_create = (req, res, next) => {
                 question: result.question,
                 answers: result.answers,
                 _id: result._id,
+                createdAt: result.createdAt,
                 request: {
                     type: 'GET',
                     url: `http://localhost:3000/polls/${result._id}`
@@ -124,4 +127,39 @@ exports.polls_delete = (req, res, next) => {
         console.error(err);
         res.status(500).json({ error: err });
     });
+};
+
+exports.polls_vote = (req, res, next) => {
+    const pollId = req.params.pollId;
+    const answerText = req.body.answer;
+
+    Poll.findById(pollId)
+        .then(poll => {
+            if (!poll) {
+                return res.status(404).json({ message: 'Poll not found' });
+            }
+
+            const answer = poll.answers.find(a => a.answer === answerText);
+            if (!answer) {
+                return res.status(404).json({ message: 'Answer not found' });
+            }
+
+            answer.votes += 1;
+
+            return poll.save();
+        })
+        .then(updatedPoll => {
+            res.status(200).json({
+                message: 'Vote registered successfully',
+                poll: updatedPoll,
+                request: {
+                    type: 'GET',
+                    url: `http://localhost:3000/polls/${pollId}`
+                }
+            });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: err });
+        });
 };

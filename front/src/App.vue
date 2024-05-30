@@ -20,23 +20,32 @@ export default {
 <style>
 * {
   box-sizing: border-box;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  text-align: center;
-  position: relative;
   background-color: #edf2f4;
-}
-
-h1 {
-  text-align: center;
 }
 
 #page-wrap {
   margin: auto;
   max-width: 800px;
-  min-height: 100vh;
+  flex: 1; /* Allow the page content to expand */
+  padding: 20px;
+}
+
+footer {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  text-align: center;
 }
 
 button {
@@ -48,11 +57,22 @@ button {
   font-size: 16px;
   font-weight: bold;
   outline: 0;
-  padding: 16px;
+  padding: 12px 20px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+button.back-btn {
+    width: 100%;
+    margin: 1px;
 }
 
 .form-signin {
   max-width: 330px;
+  margin: auto;
   padding: 1rem;
 }
 

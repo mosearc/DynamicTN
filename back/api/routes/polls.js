@@ -14,4 +14,6 @@ router.patch('/:pollId', PollController.polls_update);
 
 router.delete('/:pollId', PollController.polls_delete);
 
+router.post('/:pollId/vote', PollController.polls_vote);
+
 module.exports = router;
