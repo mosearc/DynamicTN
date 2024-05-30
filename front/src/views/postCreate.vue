@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts">
-import {reactive} from "vue";
-import {useRouter} from "vue-router";
-import {clearLoggedUser, logged, loggedUser, setLogged, setLoggedUser} from "@/global";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { clearLoggedUser, logged, loggedUser, setLogged, setLoggedUser } from "@/global";
 
 export default {
   name: 'LoginView',

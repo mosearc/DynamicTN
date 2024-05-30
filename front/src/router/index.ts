@@ -1,27 +1,29 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from "@/views/HomeView.vue";
-import LoginView from "@/views/LoginView.vue";
-import RegisterView from "@/views/RegisterView.vue";
-import FeedView from '@/views/FeedView.vue'
-import ContentDetailView from '@/views/ContentDetailView.vue'
-import postCreationView from "@/views/postCreationView.vue";
-import CommentsView from '@/views/CommentsView.vue'
-import CreateCommentView from '@/views/CreateCommentView.vue'
-
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
+import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
+import Feed from '@/views/Feed.vue';
+import postDetail from '@/views/postDetail.vue';
+import postCreate from "@/views/postCreate.vue";
+import pollDetail from "@/views/pollDetail.vue";
+import pollCreate from "@/views/pollCreate.vue";
+import Comments from '@/views/Comments.vue';
+import commentCreate from '@/views/commentCreate.vue';
 
 const routes: Array<RouteRecordRaw> = [
-  {path: '/login', component: LoginView},
-  {path: '/register', component: RegisterView},
-  {path: '/',name: 'Feed',component: FeedView},
-  {path: '/feed/:id',name: 'ContentDetail',component: ContentDetailView},
-  {path: '/postCreation', component: postCreationView},
-  {path: '/comments/:id',name: 'Comments',component: CommentsView},
-  {path: '/createComment/:id',name: 'createComment',component: CreateCommentView},
-]
+  { path: '/login', component: Login },
+  { path: '/register', component: Register },
+  { path: '/', name: 'FeedView', component: Feed },
+  { path: '/feed/:id', name: 'PostDetail', component: postDetail },
+  { path: '/postCreate', component: postCreate },
+  { path: '/feed/polls/:id', name: 'PollDetail', component: pollDetail },
+  { path: '/pollCreate', component: pollCreate },
+  { path: '/comments/:id', name: 'CommentsView', component: Comments },
+  { path: '/commentCreate/:id', component: commentCreate }
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;

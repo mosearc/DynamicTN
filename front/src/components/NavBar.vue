@@ -6,7 +6,10 @@
       <div v-if="!logged">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <router-link to="/postCreation" class="nav-link active">Crea</router-link>
+            <router-link to="/postCreate" class="nav-link active">Crea Post</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/pollCreate" class="nav-link active">Crea Poll</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/login" class="nav-link active">Accedi</router-link>
@@ -22,7 +25,7 @@
 </template>
 
 <script>
-import {logged, setLogged} from "@/global";
+import { logged, setLogged } from "@/global";
 
 export default {
   name: 'NavBar',

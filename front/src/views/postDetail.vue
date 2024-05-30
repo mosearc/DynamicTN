@@ -11,7 +11,7 @@
 			</div>
 			<div>
 				<router-link to="/">
-					<button class="option">Indietro</button>
+					<button class="back-btn">Indietro</button>
 				</router-link>
 				<router-link v-bind:to="/comments/+this.content._id">
 					<button class="option">Mostra commenti</button>
@@ -23,13 +23,13 @@
 
 <script>
 import axios from 'axios';
-import {logged, setLogged} from "@/global";
+import { logged, setLogged } from "@/global";
 
 export default {
-    name: 'ContentDetailView',
+    name: 'PostDetail',
     data() {
         return {
-            content: [],
+            content: []
         };
     },
     async created() {
@@ -65,11 +65,6 @@ img {
     position: absolute;
     top: 24px;
     right: 16px;
-}
-
-button.option {
-    width: 100%;
-    margin: 1px;
 }
 
 #location {

@@ -2,7 +2,7 @@
 	<div id="userOptions">
 		<button @click="this.navigate.push({path:`/feed/${this.postId}`})">Indietro</button>
 		&nbsp;
-		<button v-if="loggedUser.token !== undefined" @click="this.navigate.push({path:`/createComment/${this.postId}`})">Aggiungi un commento</button>
+		<button v-if="loggedUser.token !== undefined" @click="this.navigate.push({path:`/commentCreate/${this.postId}`})">Aggiungi un commento</button>
 	</div>
 	<hr/>
 	<div v-if="this.comments.length > 0">
