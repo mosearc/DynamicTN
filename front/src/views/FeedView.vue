@@ -12,7 +12,7 @@
 		</div>
         <div class="grid-wrap">
             <div v-for="content in contents" class="content-item" v-bind:key="content._id">
-                <img v-if="content.postImage" v-bind:src="'http://localhost:3000/'+content.postImage" />
+                <img v-if="content.postImage" v-bind:src="backPath+content.postImage" />
                 <h3 class="content-name">{{ content.name }}</h3>
                 <p class="content-description">{{ content.text }}</p>
                 <router-link v-bind:to="'/feed/' + content._id">
@@ -36,12 +36,17 @@ export default {
 			search:''
         };
     },
+  computed: {
+    backPath() {
+      return process.env.VUE_APP_BACK_PATH;
+    }
+  },
 	
 	methods:{
 		async searchPost(){
 			const params = {name:this.search}
 
-			const result = await axios.get("http://localhost:3000/posts",{
+			const result = await axios.get(process.env.VUE_APP_BACK_PATH + "posts",{
 				params
 			}).then((res)=>{
 				this.contents = res.data.posts
@@ -51,7 +56,7 @@ export default {
 		},
 
 		async showAllPosts(){
-			const result = await axios.get('http://localhost:3000/posts').catch((err)=>{
+			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').catch((err)=>{
 				console.log(err);
 			}).then((res)=>{
 				this.contents = res.data.posts;

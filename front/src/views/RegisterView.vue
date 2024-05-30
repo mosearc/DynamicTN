@@ -50,7 +50,7 @@ export default {
 
     const submit = async () => {
       //console.log(data)
-      const response = await fetch('http://localhost:3000/users', {
+      const response = await fetch(process.env.VUE_APP_BACK_PATH + 'users', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(data),

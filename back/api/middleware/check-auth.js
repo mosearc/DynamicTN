@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
 
 		if(token === undefined)
 			token = req.headers.authorization
-        console.log(token);
+
         const decoded = jwt.verify(token, process.env.JWT_KEY); //v16 per token nel body
         req.userData = decoded;
         next()

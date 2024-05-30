@@ -47,7 +47,7 @@ export default {
 
     const submit = async () => {
 
-      const response = await fetch('http://localhost:3000/auth', {
+      const response = await fetch(process.env.VUE_APP_BACK_PATH + 'auth', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         credentials: 'include',

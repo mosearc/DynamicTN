@@ -27,7 +27,7 @@ export default{
 		async submit(){
 			const body = {text:this.text,postId:this.$route.params.id}
 
-			const result = await axios.post("http://localhost:3000/comments",body,{	
+			const result = await axios.post(process.env.VUE_APP_BACK_PATH + "comments",body,{
 				headers:{
 					authorization: " "+loggedUser.token
 				}
