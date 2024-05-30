@@ -1,17 +1,42 @@
 <template>
   <div>
+    <PopUp :isVisible="showPopup" @close="handleClose">
+      <h2>Informativa Sulla Privacy e Consenso Informato</h2>
+      <p>cose legali e blablabla, navigando in questo sito accetti che i tuoi dati vengano registrati ecc ecc</p>
+    </PopUp>
+
     <NavBar/>
+
     <router-view/>
   </div>
 </template>
 
 <script>
 import NavBar from '@/components/NavBar.vue'
+import PopUp from "@/components/PopUp.vue";
 
 export default {
   name: 'App',
   components: {
+    PopUp,
     NavBar,
+  },
+  data() {
+    return {
+      showPopup: false
+    };
+  },
+  mounted() {
+    // Check session storage to see if the popup has been shown
+    if (!sessionStorage.getItem('popupShown')) {
+      this.showPopup = true;
+    }
+  },
+  methods: {
+    handleClose() {
+      this.showPopup = false;
+      sessionStorage.setItem('popupShown', 'true'); // Set session storage to indicate the popup has been shown
+    }
   }
 }
 

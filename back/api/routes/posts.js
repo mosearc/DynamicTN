@@ -177,6 +177,6 @@ router.patch('/:postId', checkAuth, checkAdmin,PostController.posts_modify)
  *       500:
  *         description: fatal error
  */
-router.delete('/:postId', checkAuth, checkAdmin,PostController.posts_delete)
+router.delete('/:postId', checkAuth, checkAdmin, PostController.posts_delete)
 
 module.exports = router

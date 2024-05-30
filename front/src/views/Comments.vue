@@ -35,7 +35,7 @@ export default{
 	async created(){
 		console.log(this.loggedUser)
 		this.postId = this.$route.params.id
-		const result = await axios.get(`http://localhost:3000/comments/fromPost/${this.postId}`)
+		const result = await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.postId}`)
 
 		if(result.data !== undefined)
 			this.comments = result.data.comments
