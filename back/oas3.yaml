@@ -15,6 +15,8 @@ tags:
     description: API endpoint to manage comments
   - name: Auth
     description: API endpoint to manage login
+  - name: Poll
+    description: API endpoint to manage polls
 paths:
   /users:
     post:
@@ -281,6 +283,29 @@ paths:
           description: The comment was deleted
         500:
           description: fatal error
+  /comments/fromPost/{id}:
+    get:
+      summary: Get the comments of a post with its id
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          name: postId
+          schema:
+            type: string
+          required: true
+          description: The post id
+      responses:
+        200:
+          description: The comments of the post with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        404:
+          description: Comments not found
+        500:
+          description: Fatal error
   /auth:
     post:
       summary: Perform the user login

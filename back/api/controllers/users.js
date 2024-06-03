@@ -73,6 +73,7 @@ exports.users_signin = (req, res, next) => {
 
                                 console.log(result)
                                 res.status(201).json({
+                                    id: user._id,
                                     message: 'User saved successfully. A mail was sent to you',
                                 })
                             })

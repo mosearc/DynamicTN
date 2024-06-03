@@ -1,14 +1,14 @@
 <template>
   <div id="page-wrap">
     <div class="search">
-				<form @submit.prevent="searchPost" >
-				<input v-model="search" class="searchInput"  placeholder="cerca post"/>
-				&nbsp;
-				<button class="btn btn-primary submit" type="submit">cerca</button>
-				&nbsp;
-				<button @click="showAllPosts()" class="btn btn-primary home">tutti i post</button>
-			</form>
-		</div>
+      <form @submit.prevent="searchPost" >
+        <input v-model="search" class="searchInput"  placeholder="cerca post"/>
+        &nbsp;
+        <button class="btn btn-primary submit" type="submit">cerca</button>
+        &nbsp;
+        <button @click="showAllPosts()" class="btn btn-primary home">tutti i post</button>
+      </form>
+    </div>
     <div class="grid-wrap">
       <div v-for="content in contents" v-bind:key="content._id" class="content-item">
         <template v-if="content.postImage">
@@ -59,30 +59,30 @@ export default {
   },
 
   methods: {
-		async searchPost() {
+    async searchPost() {
       console.log("42")
-			const params = { name: this.search };
+      const params = { name: this.search };
 
-			const result = await axios.get(process.env.VUE_APP_BACK_PATH + "posts", {
-				params
-			}).then((res) => {
-				this.contents = res.data.posts;
-			}).catch((err) => {
-				console.log(err);
-			});
-		},
+      const result = await axios.get(process.env.VUE_APP_BACK_PATH + "posts", {
+        params
+      }).then((res) => {
+        this.contents = res.data.posts;
+      }).catch((err) => {
+        console.log(err);
+      });
+    },
 
-		async showAllPosts() {
+    async showAllPosts() {
       console.log("42")
-			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').catch((err) => {
-				console.log(err);
-			}).then((res) => {
-				this.contents = res.data.posts;
-			}).catch((err) => {
-				alert(err);
-			});
-		}
-	},
+      const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').catch((err) => {
+        console.log(err);
+      }).then((res) => {
+        this.contents = res.data.posts;
+      }).catch((err) => {
+        alert(err);
+      });
+    }
+  },
 
   async created() {
     this.showAllPosts();

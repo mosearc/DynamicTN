@@ -64,7 +64,7 @@ router.post('/', UserController.users_signin )
  *       500:
  *         description: fatal error
  */
-router.delete('/:userId', checkAuth, checkAdmin, UserController.users_delete)
+router.delete('/:userId', UserController.users_delete)
 
 /**
  * @swagger

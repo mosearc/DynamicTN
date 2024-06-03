@@ -92,17 +92,17 @@ router.post('/', checkAuth, CommentController.comments_create)
 router.get("/:commentId", CommentController.comments_get_by_id)
 /**
  * @swagger
- * /comments/{id}:
+ * /comments/fromPost/{id}:
  *   get:
  *     summary: get the comments of a post with its id
  *     tags: [Comment]
  *     parameters:
  *       - in: path
- *         name: id
+ *         name: postId
  *         schema:
  *           type: string
  *         required: true
- *         description: the comment id
+ *         description: the post id
  *     responses:
  *       200:
  *         description: the comments of the post with that id
