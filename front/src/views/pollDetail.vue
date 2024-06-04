@@ -40,10 +40,33 @@ export default {
     async vote(answer) {
       console.log("42")
       try {
-        const result = await axios.post(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}/vote`, { answer: answer.answer });
+          const result = await axios({
+              method:'post',
+              url:process.env.VUE_APP_BACK_PATH + `votes/polls/sendVote/${this.$route.params.id}`,
+              headers: {
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer '+sessionStorage.token
+              },
+              data:{ answer: answer.answer }
+          });
         this.poll = result.data.poll; // Update poll data with new votes
       } catch (error) {
-        console.error('Error voting:', error);
+          switch(error.response.status){
+              case 409:
+                  alert("ERROR: you already voted")
+                  break;
+              case 404:
+                  alert("ERROR: poll does not exists")
+                  break;
+              case 401:
+                  alert("ERROR: you must log in if you want to vote")
+                  break;
+              default:
+                  alert("Error from the server:"+error.response.status)
+                  break;
+          }
+
+          console.error('Error voting:', error);
       }
     }
   }

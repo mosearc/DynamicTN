@@ -14,6 +14,7 @@ const postsRoutes = require('./api/routes/posts');
 const commentsRoutes = require('./api/routes/comments');
 const usersRoutes = require('./api/routes/users');
 const authRoutes = require('./api/routes/auth');
+const upvoteRoutes = require('./api/routes/votes');
 
 mongoose.connect(process.env.DATABASE_URI,{
     //useMongoClient: true
@@ -46,6 +47,7 @@ app.use('/polls', pollRoutes);
 app.use('/posts', postsRoutes);
 app.use('/users', usersRoutes);
 app.use('/auth', authRoutes);
+app.use('/votes', upvoteRoutes);
 
 const specs = swaggerJsDoc(options);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));

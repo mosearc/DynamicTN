@@ -15,6 +15,9 @@ tags:
     description: API endpoint to manage comments
   - name: Auth
     description: API endpoint to manage login
+ - name: Vote 
+    description: API endpoint to manage votes 
+
 paths:
   /users:
     post:
@@ -184,6 +187,48 @@ paths:
           description: The post was deleted
         500:
           description: fatal error
+  /votes/posts/{postId}:
+  	get:
+	  summary: Return the number of votes left on the post
+	  tags: [ Vote ]
+	  responses:
+	    200:
+		  description: The number of votes
+		  content:
+		    application/json:
+			  schema:
+			    type: number
+				item:
+				  nrLikes
+		500:
+		  description: fatal error
+
+  /votes/posts/sendVote/{postId}:
+  	post:
+	  summary: save vote left by user under a post 
+	  tags: [ Vote ]
+	  responses:
+	    200:
+		  description: vote saved successfully 
+		404:
+		  description: post does not exists
+		409:
+		  description: user already voted the post
+		500:
+		  description: fatal error
+  /votes/polls/sendVote/{pollId}:
+  	post:
+	  summary: save vote left by user under a poll
+	  tags: [ Vote ]
+	  responses:
+	    200:
+		  description: vote saved successfully 
+		404:
+		  description: poll does not exists
+		409:
+		  description: user already voted
+		500:
+		  description: fatal error		  
   /comments:
     get:
       summary: Returns the list of all the comments
@@ -381,3 +426,19 @@ components:
         password:
           type: string
           description: Password of the user
+    Vote:
+      type: object
+      required:
+        - post 
+        - user 
+      description: create likes for posts 
+      properties:
+        user:
+          type: mongoose.Schema.Types.ObjectId 
+          description: ID of the user that left the vote on the post 
+        post:
+          type: mongoose.Schema.Types.ObjectId 
+          description: ID of the post where the user has put a vote 
+		poll:
+          type: mongoose.Schema.Types.ObjectId 
+          description: ID of the poll where the user has put a vote 
