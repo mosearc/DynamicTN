@@ -62,11 +62,11 @@ export default {
         setReg(sessionStorage.getItem("regist"))
 
         await router.push('/login')
-        alert("ACCOUNT CREATO!")
+        alert("Account creato")
 
       }else{
         await router.push('/register')
-        alert("USER ALREADY EXIST!")
+        alert("Questo account esiste già! Effettua l'accesso")
       }
 
     }

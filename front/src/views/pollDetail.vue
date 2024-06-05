@@ -13,6 +13,7 @@
       <router-link to="/">
         <button class="back-btn">Indietro</button>
       </router-link>
+      <button @click="deletePoll" class="delete-btn">Elimina poll</button>
     </div>
   </div>
 </template>
@@ -41,9 +42,17 @@ export default {
       console.log("42")
       try {
         const result = await axios.post(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}/vote`, { answer: answer.answer });
-        this.poll = result.data.poll; // Update poll data with new votes
+        this.poll = result.data.poll;
       } catch (error) {
         console.error('Error voting:', error);
+      }
+    },
+    async deletePoll() {
+      try {
+        await axios.delete(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
+        this.$router.push('/');
+      } catch (error) {
+        console.error('Error deleting poll:', error);
       }
     }
   }
@@ -85,17 +94,23 @@ export default {
   color: #333;
 }
 
-button.vote-btn {
+.vote-btn {
   background-color: #007bff;
   color: white;
-  border: none;
   padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-button.vote-btn:hover {
+.vote-btn:hover {
   background-color: #0056b3;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  margin-top: 20px;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
 }
 </style>

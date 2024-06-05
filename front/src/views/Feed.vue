@@ -25,12 +25,12 @@
         </template>
         <template v-if="content.name">
           <router-link :to="'/feed/' + content._id" class="detail-link">
-            <button class="detail-button">Vedi post</button>
+            <button class="detail-btn">Vedi post</button>
           </router-link>
         </template>
         <template v-else-if="content.answers">
           <router-link :to="'/feed/polls/' + content._id" class="detail-link">
-            <button class="detail-button">Vedi poll</button>
+            <button class="detail-btn">Vedi poll</button>
           </router-link>
         </template>
       </div>
@@ -167,17 +167,12 @@ export default {
   width: 100%;
 }
 
-.detail-button {
+.detail-btn {
   background-color: #007bff;
   color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.detail-button:hover {
+.detail-btn:hover {
   background-color: #0056b3;
 }
 

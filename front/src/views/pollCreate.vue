@@ -10,14 +10,14 @@
         <label for="answer">Opzione {{ index + 1 }}:</label>
         <div class="answer-input">
           <input id="answer" v-model="answer.answer" class="form-control" required />
-          <button type="button" @click="removeAnswer(index)" class="btn remove-btn">Rimuovi</button>
+          <button type="button" @click="removeAnswer(index)" class="remove-btn">Rimuovi</button>
         </div>
       </div>
       <div class="form-group">
-        <button type="button" @click="addAnswer" class="btn add-btn">Aggiungi opzione</button>
+        <button type="button" @click="addAnswer" class="add-btn">Aggiungi opzione</button>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn submit-btn">Crea Poll</button>
+        <button type="submit" class="submit-btn">Crea poll</button>
       </div>
     </form>
   </div>
@@ -98,17 +98,9 @@ label {
   border-radius: 4px;
 }
 
-.btn {
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-}
-
 .add-btn {
   background-color: #007bff;
   color: #fff;
-  transition: background-color 0.2s;
 }
 
 .add-btn:hover {
@@ -119,7 +111,6 @@ label {
   margin-left: 10px;
   background-color: #dc3545;
   color: #fff;
-  transition: background-color 0.2s;
 }
 
 .remove-btn:hover {
@@ -129,11 +120,9 @@ label {
 .submit-btn {
   background-color: #007bff;
   color: #fff;
-  transition: background-color 0.2s;
 }
 
 .submit-btn:hover {
   background-color: #0056b3;
 }
-
 </style>

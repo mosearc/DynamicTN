@@ -155,7 +155,7 @@ router.get('/:postId', PostController.posts_get_by_id)
  *      500:
  *        description: Some error happened
  */
-router.patch('/:postId', checkAuth, checkAdmin,PostController.posts_modify)
+router.patch('/:postId', checkAuth, checkAdmin,PostController.posts_update)
 
 /**
  * @swagger
