@@ -66,7 +66,7 @@ export default {
 
       }else{
         await router.push('/login')
-        alert("WRONG!")
+        alert("Prima devi creare un account")
       }
     }
 

@@ -1,7 +1,7 @@
 <template>
     <div id="page-wrap">
         <div id="img-wrap">
-            <img v-if="content.postImage" v-bind:src="backPath+content.postImage" />
+            <img v-if="content.postImage" v-bind:src="backPath + content.postImage" />
         </div>
         <div id="content-details">
             <h1>{{ content.name }}</h1>
@@ -16,7 +16,7 @@
 				<router-link v-bind:to="/comments/+this.content._id">
 					<button class="option">Mostra commenti</button>
 				</router-link>
-        <button type="button" @click="elimina">elimina</button>
+        <button type="button" @click="elimina">Elimina post</button>
 			</div>
 		</div>
     </div>
@@ -24,11 +24,8 @@
 
 <script>
 import axios from 'axios';
-import {logged, setLogged} from "@/global";
+import { logged, setLogged } from "@/global";
 import router from "@/router";
-
-
-
 
 export default {
     name: 'PostDetail',

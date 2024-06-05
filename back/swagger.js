@@ -4,7 +4,7 @@ const options = {
         info: {
             title: 'DynamicTN',
             version: '1.0.0',
-            description: 'DynamicTN is a project that aim to create a platform to expose and share your improvement suggestions over the city of Trento',
+            description: 'DynamicTN is a university project aimed at creating a platform to share and expose improvement suggestions for the city of Trento, Italy.',
 
         },
         servers: [
@@ -18,7 +18,7 @@ const options = {
                 User: {
                     type: 'object',
                     required: ['email', 'password'],
-                    description: 'the user model of the system',
+                    description: 'The user model of the system',
                     properties: {
                         email: {
                             type: 'string',
@@ -41,15 +41,15 @@ const options = {
                     properties: {
                         name: {
                             type: 'string',
-                            description: 'the name of the post'
+                            description: 'Name of the post'
                         },
                         text: {
                             type: 'string',
-                            description: 'the text of the post'
+                            description: 'Text of the post'
                         },
                         postImage: {
                             type: 'string',
-                            description: 'the image of the post'
+                            description: 'Image for the post'
                         }
 
                     },
@@ -59,18 +59,39 @@ const options = {
                         postImage: 'exampleImageUrl',
                     }
                 },
+                Poll: {
+                    type: 'object',
+                    required: ['question', 'answers'],
+                    properties: {
+                        question: {
+                            type: 'string',
+                            description: 'The question of the poll',
+                        },
+                        answers: {
+                            type: 'array',
+                            items: {
+                                type: 'string',
+                            },
+                            description: 'The answers for the poll',
+                        },
+                    },
+                    example: {
+                        question: 'Red or blue pill?',
+                        answers: ['Red', 'Blue', '42'],
+                    },
+                },
                 Comment: {
                     type: 'object',
                     required: ['post', 'text'],
-                    description: 'creating a comment linked to one post, use postId',
+                    description: 'Creating a comment linked to one post, use postId',
                     properties: {
                         post: {
                             type: 'mongoose.Schema.Types.ObjectId',
-                            description: 'the link at its post'
+                            description: 'Link at its post'
                         },
                         text: {
                             type: 'string',
-                            description: 'the text of the comment'
+                            description: 'Text of the comment'
                         }
                     },
                     example: {
@@ -81,7 +102,7 @@ const options = {
                 Auth: {
                     type: 'object',
                     required: ['email', 'password'],
-                    description: 'a "fake" model used to perform login remaining in a RESTful logic',
+                    description: 'Simulated model used to perform login with a RESTful logic',
                     properties: {
                         email: {
                             type: 'string',
@@ -101,7 +122,7 @@ const options = {
         },
         responses: {
             404: {
-                description: 'not founded',
+                description: 'not found',
                 contents: 'application/json',
             },
             500: {

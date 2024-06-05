@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 const Post = require("../models/post");
 
 exports.posts_get_all = (req, res, next) => {
-	let search = {};
+    let search = {};
 
-	if(req.query.name !== '' && req.query.name !== undefined)
-		search = {name:req.query.name}
+    if (req.query.name !== '' && req.query.name !== undefined)
+        search = { name: req.query.name };
 
     Post.find(search)
         .select('name text _id postImage')
@@ -25,21 +25,23 @@ exports.posts_get_all = (req, res, next) => {
                             type: "GET",
                             url: "http://localhost:3000/posts/" + doc._id
                         }
-                    }
+                    };
                 })
-            }
-			console.log(docs)
+            };
+
+            console.log(docs);
+
             if (docs.length > 0) {
                 res.status(200).json(risp);
-            }else{
-                res.status(404).json({message:'No Posts Found'});
+            } else {
+                res.status(404).json({ message: 'No Posts Found' });
             }
         })
         .catch(err => {
             console.log(err);
-            res.status(500).json({error: err});
+            res.status(500).json({ error: err });
         });
-}
+};
 
 exports.posts_create = (req, res, next) => {
     console.log(req.file)
@@ -114,14 +116,13 @@ exports.posts_get_by_id = (req, res,next) => {
         })
 }
 
-//array propName:quello che vuoi cambiare: { "propName":"text", "value": 999 } "value":"yeye"
-exports.posts_modify = (req, res, next) => {
-    const id = req.params.postId
-    const updateOps = {}
+exports.posts_update = (req, res, next) => {
+    const id = req.params.postId;
+    const updateOps = {};
     for (const ops of req.body) {
         updateOps[ops.propName] = ops.value;
     }
-    Post.updateOne({_id: id}, { $set: updateOps })
+    Post.updateOne({ _id: id }, { $set: updateOps })
         .exec()
         .then(result => {
             console.log(result);
@@ -131,13 +132,13 @@ exports.posts_modify = (req, res, next) => {
                     type: 'GET',
                     url: "http://localhost:3000/posts/" + id
                 }
-            })
+            });
         })
         .catch(err => {
-            console.log(err)
-            res.status(500).json({error: err})
-        })
-}
+            console.log(err);
+            res.status(500).json({ error: err });
+        });
+};
 
 exports.posts_delete = (req, res, next) => {
     const id = req.params.postId
@@ -146,7 +147,7 @@ exports.posts_delete = (req, res, next) => {
         .then(result => {
             res.status(204).json({
                 message: 'DELETED',
-                request: { //roba per fare l'inverso e avere info
+                request: {
                     type: 'POST',
                     url: 'http://localhost:3000/posts',
                     data: {name: 'String', text: 'String'}

@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-md navbar-dark bg-black mb-4">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand"><b>dynamicTN</b></router-link>
+      <router-link to="/" class="navbar-brand"><b>DynamicTN</b></router-link>
 
       <div v-if="!logged">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">

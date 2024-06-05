@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: DynamicTN
   version: 1.0.0
-  description: DynamicTN is a project that aim to create a platform to expose and share your improvement suggestions over the city of Trento
+  description: DynamicTN is a university project aimed at creating a platform to share and expose improvement suggestions for the city of Trento, Italy.
 servers:
   - url: http://localhost:3000
     description: development server
@@ -11,6 +11,8 @@ tags:
     description: API endpoint to manage users
   - name: Post
     description: API endpoint to manage posts
+  - name: Poll
+    description: API endpoint to manage polls
   - name: Comment
     description: API endpoint to manage comments
   - name: Auth
@@ -67,7 +69,7 @@ paths:
           description: fatal error
   /users/{email}:
     get:
-      summary: get the user with the email
+      summary: Get the user by email
       tags: [ User ]
       parameters:
         - in: path
@@ -75,10 +77,10 @@ paths:
           schema:
             type: string
           required: true
-          description: the user email
+          description: The user email
       responses:
         200:
-          description: the user with that email
+          description: The user with that email
           content:
             application/json:
               schema:
@@ -124,7 +126,7 @@ paths:
           description: Some server error
   /posts/{id}:
     get:
-      summary: get the post with the id
+      summary: Get the post by id
       tags: [ Post ]
       parameters:
         - in: path
@@ -132,10 +134,10 @@ paths:
           schema:
             type: string
           required: true
-          description: the post id
+          description: The post id
       responses:
         200:
-          description: the post with that id
+          description: The post with that id
           content:
             application/json:
               schema:
@@ -145,7 +147,7 @@ paths:
         500:
           description: fatal error
     patch:
-      summary: Update the post by the id
+      summary: Update the post by id
       tags: [ Post ]
       parameters:
         - in: path
@@ -184,6 +186,103 @@ paths:
           description: The post was deleted
         500:
           description: fatal error
+  /polls:
+    get:
+      summary: Returns the list of all the polls
+      tags: [ Poll ]
+      responses:
+        '200':
+          description: The list of the polls
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Poll'
+        '404':
+          description: Seems empty :(
+        '500':
+          description: Fatal error
+    post:
+      summary: Create a new poll
+      tags: [ Poll ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        '201':
+          description: The poll was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        '500':
+          description: Some server error
+  /polls/{pollId}:
+    get:
+      summary: Get the poll by id
+      tags: [ Poll ]
+      parameters:
+        - in: path
+          name: pollId
+          schema:
+            type: string
+          required: true
+          description: The poll id
+      responses:
+        '200':
+          description: The poll with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        '404':
+          description: Not found
+        '500':
+          description: Fatal error
+    patch:
+      summary: Update the poll by id
+      tags: [ Poll ]
+      parameters:
+        - in: path
+          name: pollId
+          schema:
+            type: string
+          required: true
+          description: The poll id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        '200':
+          description: The poll was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        '500':
+          description: Some error happened
+    delete:
+      summary: Remove the poll by id
+      tags: [ Poll ]
+      parameters:
+        - in: path
+          name: pollId
+          schema:
+            type: string
+          required: true
+          description: The poll id
+      responses:
+        '204':
+          description: The poll was deleted
+        '500':
+          description: Fatal error
   /comments:
     get:
       summary: Returns the list of all the comments
@@ -218,10 +317,10 @@ paths:
         500:
           description: Some server error
         404:
-          description: post not found
+          description: Post not found
   /comments/{id}:
     get:
-      summary: get the comment with the id
+      summary: Get the comment by id
       tags: [ Comment ]
       parameters:
         - in: path
@@ -229,20 +328,20 @@ paths:
           schema:
             type: string
           required: true
-          description: the comment id
+          description: The comment id
       responses:
         200:
-          description: the comment with that id
+          description: The comment with that id
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Comment'
         404:
-          description: comment not found
+          description: Comment not found
         500:
           description: fatal error
     put:
-      summary: Update the comment by the id
+      summary: Update the comment by id
       tags: [ Comment ]
       parameters:
         - in: path
@@ -293,7 +392,7 @@ paths:
               $ref: '#/components/schemas/Auth'
       responses:
         200:
-          description: Auth success
+          description: Auth successful
           content:
             application/json:
               schema:
@@ -309,7 +408,7 @@ components:
       required:
         - email
         - password
-      description: the user model of the system
+      description: The user model of the system
       properties:
         email:
           type: string
@@ -329,30 +428,50 @@ components:
       properties:
         name:
           type: string
-          description: the name of the post
+          description: Name of the post
         text:
           type: string
-          description: the text of the post
+          description: Text of the post
         postImage:
           type: string
-          description: the image of the post
+          description: Image for the post
       example:
         name: examplePostTitle
         text: examplePostText
         postImage: exampleImageUrl
+    Poll:
+      type: object
+      required:
+        - question
+        - answers
+      properties:
+        question:
+          type: string
+          description: The question of the poll
+        answers:
+          type: array
+          items:
+            type: string
+          description: The answers for the poll
+      example:
+        question: Red or blue pill?
+        answers:
+          - Red
+          - Blue
+          - 42
     Comment:
       type: object
       required:
         - post
         - text
-      description: creating a comment linked to one post, use postId
+      description: Creating a comment linked to one post, use postId
       properties:
         post:
           type: mongoose.Schema.Types.ObjectId
-          description: the link at its post
+          description: Link at its post
         text:
           type: string
-          description: the text of the comment
+          description: Text of the comment
       example:
         postId: examplePostId
         text: exampleCommentText
@@ -361,7 +480,7 @@ components:
       required:
         - email
         - password
-      description: a "fake" model used to perform login remaining in a RESTful logic
+      description: Simulated model used to perform login with a RESTful logic
       properties:
         email:
           type: string

@@ -27,7 +27,6 @@ export default {
     };
   },
   mounted() {
-    // Check session storage to see if the popup has been shown
     if (!sessionStorage.getItem('popupShown')) {
       this.showPopup = true;
     }
@@ -35,7 +34,7 @@ export default {
   methods: {
     handleClose() {
       this.showPopup = false;
-      sessionStorage.setItem('popupShown', 'true'); // Set session storage to indicate the popup has been shown
+      sessionStorage.setItem('popupShown', 'true');
     }
   }
 }
@@ -57,7 +56,7 @@ body {
 #page-wrap {
   margin: auto;
   max-width: 800px;
-  flex: 1; /* Allow the page content to expand */
+  flex: 1;
   padding: 20px;
 }
 
@@ -76,21 +75,21 @@ h1, h2, h3, h4, h5, h6 {
 button {
   background-color: black;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   color: white;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
   outline: 0;
-  padding: 12px 20px;
-  transition: background-color 0.3s ease;
+  padding: 10px 20px;
+  transition: background-color 0.4s ease;
 }
 
 button:hover {
   background-color: #333;
 }
 
-button.back-btn {
+.back-btn {
     width: 100%;
     margin: 1px;
 }
