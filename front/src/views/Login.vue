@@ -1,26 +1,22 @@
 <template>
   <form @submit.prevent="submit" class="form-signin w-100 m-auto">
     <span v-if="loggedUser.token">
-      Already Logged!
-      <button type="button" @click="logout">Logout</button>
+      Hai già effettuato l'accesso.
+      <button @click="logout">Esci</button>
     </span>
-
     <span v-if="!loggedUser.token">
       <h1 class="h3 mb-3 fw-normal"><b>Entra nel tuo account</b></h1>
-
       <input v-model="data.email" type="email" class="form-control" placeholder="Inserisci e-mail">
-
       <input v-model="data.password" type="password" class="form-control" placeholder="Inserisci password">
-
       <button class="btn btn-primary w-100 py-2" type="submit">Accedi</button>
     </span>
   </form>
 </template>
 
 <script lang="ts">
-import {reactive} from "vue";
-import {useRouter} from "vue-router";
-import {clearLoggedUser, logged, loggedUser, setLogged, setLoggedUser} from "@/global";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { clearLoggedUser, logged, loggedUser, setLogged, setLoggedUser } from "@/global";
 
 export default {
   name: 'LoginView',

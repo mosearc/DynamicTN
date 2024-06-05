@@ -17,7 +17,7 @@ const checkRole = async (req, res, next) => {
             });
         }
 
-        next(); // Call next if user is admin
+        next();
     } catch (error) {
         console.error('Database error:', error);
         return res.status(500).json({ error: 'Internal server error' });

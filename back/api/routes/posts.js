@@ -5,11 +5,7 @@ const multer = require('multer');
 const checkAuth = require('../middleware/check-auth');
 const checkAdmin = require('../middleware/check-role');
 
-
-
 const PostController = require('../controllers/posts');
-
-
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

@@ -1,23 +1,23 @@
 <template>
   <div id="poll-create">
-    <h1>Crea Poll</h1>
+    <h1 class="h3 mb-3 fw-normal"><b>Crea Poll</b></h1>
     <form @submit.prevent="createPoll">
       <div class="form-group">
         <label for="question">Domanda:</label>
-        <input id="question" v-model="question" class="form-control" required />
+        <input id="question" v-model="question" class="form-control" placeholder="Inserisci domanda" required />
       </div>
       <div v-for="(answer, index) in answers" v-bind:key="index" class="form-group">
-        <label for="answer">Opzione {{ index + 1 }}:</label>
+        <label for="answer">Risposta {{ index + 1 }}:</label>
         <div class="answer-input">
-          <input id="answer" v-model="answer.answer" class="form-control" required />
+          <input id="answer" v-model="answer.answer" class="form-control" placeholder="Inserisci risposta" required />
           <button type="button" @click="removeAnswer(index)" class="remove-btn">Rimuovi</button>
         </div>
       </div>
       <div class="form-group">
-        <button type="button" @click="addAnswer" class="add-btn">Aggiungi opzione</button>
+        <button type="button" @click="addAnswer" class="add-btn">Aggiungi risposta</button>
       </div>
       <div class="form-group">
-        <button type="submit" class="submit-btn">Crea poll</button>
+        <button type="submit" class="submit-btn">Pubblica</button>
       </div>
     </form>
   </div>
@@ -27,6 +27,7 @@
 import axios from 'axios';
 
 export default {
+  name: 'PollCreate',
   data() {
     return {
       question: '',
@@ -99,18 +100,18 @@ label {
 }
 
 .add-btn {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #28a745;
+  padding: 5px 10px;
 }
 
 .add-btn:hover {
-  background-color: #0056b3;
+  background-color: #218838;
 }
 
 .remove-btn {
   margin-left: 10px;
   background-color: #dc3545;
-  color: #fff;
+  padding: 5px 10px;
 }
 
 .remove-btn:hover {
@@ -119,7 +120,7 @@ label {
 
 .submit-btn {
   background-color: #007bff;
-  color: #fff;
+  width: 100%;
 }
 
 .submit-btn:hover {

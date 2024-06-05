@@ -1,14 +1,10 @@
 <template>
   <div id="page-wrap">
     <div class="search">
-				<form @submit.prevent="searchPost" >
-				<input v-model="search" class="searchInput"  placeholder="cerca post"/>
-				&nbsp;
-				<button class="btn btn-primary submit" type="submit">cerca</button>
-				&nbsp;
-				<button @click="showAllPosts()" class="btn btn-primary home">tutti i post</button>
-			</form>
-		</div>
+      <input v-model="search" class="search-input" placeholder="Cerca post" />
+      <button @click="searchPost" class="search-btn">Cerca</button>
+      <button @click="showAllPosts()" class="search-btn">Tutti i post</button>
+    </div>
     <div class="grid-wrap">
       <div v-for="content in contents" v-bind:key="content._id" class="content-item">
         <template v-if="content.postImage">
@@ -23,22 +19,17 @@
             </li>
           </ul>
         </template>
-        <template v-if="content.name">
-          <router-link :to="'/feed/' + content._id" class="detail-link">
-            <button class="detail-btn">Vedi post</button>
+        <div class="button-group">
+          <router-link v-if="content.name" v-bind:to="'/feed/' + content._id">
+            <button>Vedi post</button>
           </router-link>
-        </template>
-        <template v-else-if="content.answers">
-          <router-link :to="'/feed/polls/' + content._id" class="detail-link">
-            <button class="detail-btn">Vedi poll</button>
+          <router-link v-else-if="content.answers" v-bind:to="'/feed/polls/' + content._id">
+            <button>Vedi poll</button>
           </router-link>
-        </template>
+        </div>
       </div>
     </div>
   </div>
-  <footer>
-    <p>Made with ❤️ by Arcaro Mosè, Hangu David, Santaniello Mattia</p>
-  </footer>
 </template>
 
 <script>
@@ -99,12 +90,6 @@ export default {
 </script>
 
 <style scoped>
-#page-wrap {
-  padding: 20px;
-  min-height: 100vh;
-  overflow-y: auto;
-}
-
 .grid-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -160,29 +145,33 @@ export default {
   color: #666;
 }
 
-.detail-link {
+.button-group {
+  margin-top: auto;
   display: flex;
   justify-content: center;
-  margin-top: auto;
-  width: 100%;
 }
 
-.detail-btn {
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 32px;
+  outline: none;
+}
+
+.search-btn {
   background-color: #007bff;
-  color: white;
+  margin-left: 10px;
 }
 
-.detail-btn:hover {
+.search-btn:hover {
   background-color: #0056b3;
-}
-
-footer {
-  padding: 20px;
-  text-align: center;
-  width: 100%;
-  background-color: black;
-  color: white;
-  position: sticky;
-  bottom: 0;
 }
 </style>

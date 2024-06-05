@@ -1,29 +1,22 @@
 <template>
   <form @submit.prevent="submit" class="form-signin w-100 m-auto">
-  <span v-if="reg.si || loggedUser.token">
-    Already Registered!
-
-    <button type="button" @click="exit">Exiet</button>
-
-  </span>
-
+    <span v-if="reg.si || loggedUser.token">
+      Sei già registrato.
+      <button @click="exit">Esci</button>
+    </span>
     <span v-if="!reg.si && !loggedUser.token">
-
       <h1 class="h3 mb-3 fw-normal"><b>Crea un account</b></h1>
-
       <input v-model="data.email" type="email" class="form-control" placeholder="Inserisci e-mail">
-
       <input v-model="data.password" type="password" class="form-control" placeholder="Inserisci password">
-
       <button class="btn btn-primary w-100 py-2" type="submit">Registrati</button>
   </span>
   </form>
 </template>
 
 <script lang="ts">
-import {reactive} from "vue";
-import {useRouter} from "vue-router";
-import {registered, setRegistered, logged, clearLoggedUser, setLogged, loggedUser, reg, setReg} from "@/global";
+import { reactive } from "vue";
+import { useRouter } from "vue-router";
+import { registered, setRegistered, logged, clearLoggedUser, setLogged, loggedUser, reg, setReg } from "@/global";
 
 export default {
   name: 'RegisterView',

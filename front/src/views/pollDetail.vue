@@ -23,37 +23,25 @@ import axios from 'axios';
 import { logged, setLogged } from "@/global";
 
 export default {
-    name: 'PollDetail',
-    data() {
-        return {
-            poll: []
-        };
-    },
-    async created() {
-    try {
+  name: 'PollDetail',
+  data() {
+      return {
+          poll: []
+      };
+  },
+  async created() {
       const result = await axios.get(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
       this.poll = result.data.poll;
-    } catch (error) {
-      console.error('Error fetching poll:', error);
-    }
   },
   methods: {
     async vote(answer) {
       console.log("42")
-      try {
         const result = await axios.post(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}/vote`, { answer: answer.answer });
         this.poll = result.data.poll;
-      } catch (error) {
-        console.error('Error voting:', error);
-      }
     },
     async deletePoll() {
-      try {
         await axios.delete(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
         this.$router.push('/');
-      } catch (error) {
-        console.error('Error deleting poll:', error);
-      }
     }
   }
 };
@@ -96,7 +84,6 @@ export default {
 
 .vote-btn {
   background-color: #007bff;
-  color: white;
   padding: 5px 10px;
 }
 
@@ -106,7 +93,6 @@ export default {
 
 .delete-btn {
   background-color: #dc3545;
-  color: white;
   margin-top: 20px;
 }
 

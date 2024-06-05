@@ -3,7 +3,7 @@
     <div class="popup-content">
       <span class="close" @click="closePopup">&times;</span>
       <slot></slot>
-      <button @click="closePopup">Close</button> <!-- Added close button -->
+      <button @click="closePopup">Ok</button>
     </div>
   </div>
 </template>

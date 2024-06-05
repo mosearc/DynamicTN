@@ -1,14 +1,17 @@
 <template>
   <div>
     <PopUp :isVisible="showPopup" @close="handleClose">
-      <h2>Informativa Sulla Privacy e Consenso Informato</h2>
-      <p>cose legali e blablabla, navigando in questo sito accetti che i tuoi dati vengano registrati ecc ecc</p>
+      <h2>Informativa sulla Privacy</h2>
+      <p>La tua privacy è importante per noi. Questo sito utilizza i cookies per migliorare l'esperienza dell'utente.</p>
     </PopUp>
 
     <NavBar/>
 
     <router-view/>
   </div>
+  <footer>
+    <p>Made with ❤️ by Arcaro Mosè, Hangu David, Santaniello Mattia</p>
+  </footer>
 </template>
 
 <script>
@@ -51,6 +54,15 @@ export default {
 
 body {
   background-color: #edf2f4;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+#app {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 #page-wrap {
@@ -58,14 +70,16 @@ body {
   max-width: 800px;
   flex: 1;
   padding: 20px;
+  overflow-y: auto;
 }
 
 footer {
+  padding: 20px;
+  text-align: center;
+  width: 100%;
   background-color: black;
   color: white;
-  text-align: center;
-  padding: 10px 0;
-  width: 100%;
+  margin-top: auto;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -82,7 +96,7 @@ button {
   font-weight: bold;
   outline: 0;
   padding: 10px 20px;
-  transition: background-color 0.4s ease;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
