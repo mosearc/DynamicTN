@@ -30,9 +30,9 @@ exports.comments_get_all = (req, res, next) => {
 }
 
 exports.comments_create = (req, res, next) => {
-    Post.find({post:req.body.postId})
-        .then(post => {
-            if (!post){
+    Post.findById(req.body.postId)
+        .then(async post => {
+            if (post === null || !('_id' in post)){
                 return res.status(404).json({
                     message: 'Post not found'
                 })
@@ -43,25 +43,25 @@ exports.comments_create = (req, res, next) => {
                 text: req.body.text,
                 post: req.body.postId
             })
-            return comment.save()
-        })
-        .then( result => {
-            console.log(result);
-            res.status(201).json({
+            
+			let newComment = await comment.save()
+
+			res.status(201).json({
                 message: "Comment successfull",
                 createdComment: {
-                    _id: result._id,
-                    post: result.post,
-                    text: result.text,
+					_id: comment._id,
+                    post: comment.post,
+                    text: comment.text
                 },
                 request: {
                     type: 'GET',
-                    url: "http://localhost:3000/comments/" + result._id
+                    url: "http://localhost:3000/comments/" + newComment._id
                 }
             })
+
         })
-        .catch(err => {
-            console.log(err)
+		.catch(err => {
+			console.error(err)
             res.status(500).json({error: err})
         });
 }
@@ -70,8 +70,8 @@ exports.comments_get_by_PostId = (req,res,next) => {
 	Comment.find({post:req.params.postId})
 		.exec()
 		.then(comments=> {
-			if(comments === undefined){
-				res.status(404).json({
+			if(!comments.length){
+				return res.status(404).json({
 					message:"no comments in this post"
 				})
 			}

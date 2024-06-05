@@ -19,7 +19,6 @@ function setRegistered (x: any) {
    registered = x
 }
 
-
 const loggedUser = reactive({
    token: undefined,
    email: undefined,

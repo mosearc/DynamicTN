@@ -7,62 +7,109 @@
             <h1>{{ content.name }}</h1>
             <!-- <p id="location">📍{{ content.location }}</p> -->
             <p>{{ content.text }}</p>
-			<div v-if="logged"></div>
-			<div>
-				<router-link to="/">
-					<button class="back-btn">Indietro</button>
-				</router-link>
+
+			
+			<div id="actions">
+				<button @click="sendUpvote">{{ this.votes }}&nbsp;👍</button>
+			
 				<router-link v-bind:to="/comments/ + this.content._id">
-					<button class="show-btn">Mostra commenti</button>
+					<button class="show-btn">commenti</button>
 				</router-link>
-        <button @click="deletePost" class="delete-btn">Elimina post</button>
+				<button @click="deletePost" class="delete-btn">Elimina post</button>
+				
 			</div>
+			<router-link to="/">
+				<button class="option">Indietro</button>
+			</router-link>
 		</div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { logged, setLogged } from "@/global";
+import {setLogged} from "@/global";
 import router from "@/router";
 
+
 export default {
-  name: 'PostDetail',
-  data() {
-      return {
-          content: []
-      };
-  },
-  async created() {
-      const result = await axios.get(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`);
-      this.content = result.data.post;
-  },
-  computed: {
-    backPath() {
-      return process.env.VUE_APP_BACK_PATH;
-    }
-  },
-  methods: {
-    async deletePost() {
-      console.log("42")
-      await fetch(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`, {
-        method: 'DELETE',
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},
-        credentials: 'include',
-      })
-        .then(async (response) => {
-          if (response.ok) {
-            await router.push('/')
-          } else {
-            alert("Non sei autorizzato ad eliminare questo post.");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-    }
+    name: 'PostDetail',
+    data() {
+        return {
+            content: [],
+			votes:0
+        };
+    },
+    async created() {
+        const result = await axios.get(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`);
+        const content = result.data.post;
+        this.content = content;
+		
+		await axios.get(process.env.VUE_APP_BACK_PATH + `votes/posts/${this.$route.params.id}`).then((res)=>{
+			this.votes = res.data.nrLikes
+		}).catch((err)=>{
+
+			console.error(err)
+			if(err.response.status !== 404){
+				alert(err)
+			}
+		})
+
+
+    },
+
+	computed: {
+		backPath() {
+			return process.env.VUE_APP_BACK_PATH;
+		}
+	},
+	methods: {
+		async deletePost() {
+			console.log("42")
+			await fetch(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`, {
+				method: 'DELETE',
+				headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},
+				credentials: 'include',
+			})
+				.then(async (response) => {
+					if (response.ok) {
+                       await router.push('/')
+                    }else{
+                       alert("Non sei autorizzato ad eliminare questo post.");
+					}
+				})
+				.catch((error) => {
+                    console.log(error);
+				})
+      },
+
+		async sendUpvote(){
+			const result = await fetch(process.env.VUE_APP_BACK_PATH + `votes/posts/sendVote/${this.$route.params.id}`, {
+				method:'POST',
+				headers:{'Content-Type':'application/json','Authorization':'Bearer '+sessionStorage.token},
+				credentials:'include'
+			}).then((res)=>{
+				switch(res.status){
+					case 200:
+						this.votes+=1;
+						break;
+					case 409:
+						alert("ERROR: you already voted this post")
+						break;
+					case 404:
+						alert("ERROR: post does not exists")
+						break;
+					case 401:
+						alert("ERROR: you must log in if you want to vote")
+						break;
+				}
+			}).catch((err)=>{
+				alert(err)
+			})
+
+		}
+
   }
-};
+}
 </script>
 
 <style scoped>
@@ -85,7 +132,29 @@ img {
 }
 
 #content-details {
-  padding: 16px;
+    padding: 16px;
+    position: relative;
+}
+
+#actions{
+	display:flex;
+	width:100%;
+	flex-direction:row;
+	justify-content:center;
+	align-items:center;
+	gap: 5px;
+	margin-bottom:2px;
+}
+
+
+#actions > * {
+	width:100%;
+}
+
+#description {
+    position: absolute;
+    top: 24px;
+    right: 16px;
 }
 
 #location {
@@ -95,6 +164,7 @@ img {
 
 .show-btn {
   background-color: #007bff;
+  width:100%;
 }
 
 .show-btn:hover {
@@ -103,11 +173,14 @@ img {
 
 .delete-btn {
   background-color: #dc3545;
-  margin-top: 20px;
-  margin-left: 10px;
+ 
 }
 
 .delete-btn:hover {
   background-color: #c82333;
+}
+
+.option{
+	width:100%;
 }
 </style>

@@ -59,16 +59,15 @@ export default {
 			}).then((res) => {
 				this.contents = res.data.posts;
 			}).catch((err) => {
-				console.log(err);
+				alert(err)
 			});
 		},
 
 		async showAllPosts() {
       console.log("42")
-			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').catch((err) => {
-				console.log(err);
-			}).then((res) => {
-				this.contents = res.data.posts;
+			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').then((res) => {
+				if(res.data.posts !== undefined)
+					this.contents = res.data.posts;
 			}).catch((err) => {
 				alert(err);
 			});

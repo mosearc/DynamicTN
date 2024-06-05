@@ -35,10 +35,14 @@ export default{
 	async created(){
 		console.log(this.loggedUser)
 		this.postId = this.$route.params.id
-		const result = await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.postId}`)
+		const result = await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.postId}`).then((res)=>{
+			if(res.data !== undefined)
+				this.comments = res.data.comments
+		}).catch((err)=>{
+			console.error(err)
+		})
     console.log("42")
-		if(result.data !== undefined)
-			this.comments = result.data.comments
+		
 	}
 }
 </script>

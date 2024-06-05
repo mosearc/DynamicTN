@@ -35,16 +35,45 @@ export default {
   },
   methods: {
     async vote(answer) {
-      console.log("42")
-        const result = await axios.post(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}/vote`, { answer: answer.answer });
-        this.poll = result.data.poll;
+		console.log("42")
+		try {
+          const result = await axios({
+              method:'post',
+              url:process.env.VUE_APP_BACK_PATH + `votes/polls/sendVote/${this.$route.params.id}`,
+              headers: {
+                  'Content-Type':'application/json',
+                  'Authorization':'Bearer '+sessionStorage.token
+              },
+              data:{ answer: answer.answer }
+		});
+
+			this.poll = result.data.poll; // Update poll data with new votes
+		} catch (error) {
+          switch(error.response.status){
+              case 409:
+                  alert("ERROR: you already voted")
+                  break;
+              case 404:
+                  alert("ERROR: poll does not exists")
+                  break;
+              case 401:
+                  alert("ERROR: you must log in if you want to vote")
+                  break;
+              default:
+                  alert("Error from the server:"+error.response.status)
+                  break;
+          }
+
+          console.error('Error voting:', error);
+      }
     },
     async deletePoll() {
         await axios.delete(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
         this.$router.push('/');
-    }
+	}
+
   }
-};
+}
 </script>
 
 <style scoped>

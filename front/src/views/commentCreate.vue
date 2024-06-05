@@ -36,7 +36,7 @@ export default{
 			}).then((res)=>{
 				this.navigate.push({path:`/comments/${this.$route.params.id}`})	
 			}).catch((err)=>{
-				console.log(err)
+				console.error(err)
 			});
 			
 		}
