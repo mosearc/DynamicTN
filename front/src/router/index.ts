@@ -6,7 +6,6 @@ import postDetail from '@/views/postDetail.vue';
 import postCreate from "@/views/postCreate.vue";
 import pollDetail from "@/views/pollDetail.vue";
 import pollCreate from "@/views/pollCreate.vue";
-import Comments from '@/views/Comments.vue';
 import commentCreate from '@/views/commentCreate.vue';
 
 const routes: Array<RouteRecordRaw> = [
@@ -17,7 +16,6 @@ const routes: Array<RouteRecordRaw> = [
   { path: '/postCreate', component: postCreate },
   { path: '/feed/polls/:id', name: 'PollDetail', component: pollDetail },
   { path: '/pollCreate', component: pollCreate },
-  { path: '/comments/:id', name: 'CommentsView', component: Comments },
   { path: '/commentCreate/:id', component: commentCreate }
 ];
 

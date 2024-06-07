@@ -3,7 +3,7 @@
     <div class="search">
       <input v-model="search" class="search-input" placeholder="Cerca post" />
       <button @click="searchPost" class="search-btn">Cerca</button>
-      <button @click="showAllPosts()" class="search-btn">Tutti i post</button>
+      <button @click="showAllPosts()" class="search-btn">Torna alla home</button>
     </div>
     <div class="grid-wrap">
       <div v-for="content in contents" v-bind:key="content._id" class="content-item">
@@ -64,27 +64,21 @@ export default {
 		},
 
 		async showAllPosts() {
-      console.log("42")
-			const result = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts').then((res) => {
-				if(res.data.posts !== undefined)
-					this.contents = res.data.posts;
-			}).catch((err) => {
-				alert(err);
-			});
-		}
-	},
+			try {
+				const postsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts');
+				const pollsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'polls');
+				const contents = [...postsResult.data.posts, ...pollsResult.data.polls];
+				this.contents = contents;
+			} catch (err) {
+				console.log(err);
+			}
+		},
 
-  async created() {
-    this.showAllPosts();
-    try {
-      const postsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts');
-      const pollsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'polls');
-      const contents = [...postsResult.data.posts, ...pollsResult.data.polls];
-      this.contents = contents;
-    } catch (err) {
-      console.log(err);
+       
+  },
+	async created() {
+		this.showAllPosts();
     }
-  }
 };
 </script>
 

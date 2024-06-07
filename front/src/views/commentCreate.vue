@@ -7,9 +7,9 @@
 			<br/>
 			<button class="btn btn-primary" type="submit">Pubblica</button>
 			&nbsp;
-			<button class="cancel btn btn-primary" @click="this.navigate.push({path:`/comments/${this.$route.params.id}`})">Annulla</button>
-	</div>
-</form>
+			<button class="cancel btn btn-primary" @click="this.navigate.push({path:`/feed/${this.$route.params.id}`})">Annulla</button>
+		</div>
+	</form>
 </template>
 <script>
 import {useRouter} from "vue-router"

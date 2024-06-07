@@ -12,8 +12,9 @@
 			<div id="actions">
 				<button @click="sendUpvote">{{ this.votes }}&nbsp;👍</button>
 			
-				<router-link v-bind:to="/comments/ + this.content._id">
-					<button class="show-btn">commenti</button>
+				<router-link v-bind:to="/commentCreate/ + this.content._id" v-if="loggedUser.token !== undefined" >
+				
+					<button class="show-btn">Commenta</button>
 				</router-link>
 				<button @click="deletePost" class="delete-btn">Elimina post</button>
 				
@@ -22,12 +23,23 @@
 				<button class="option">Indietro</button>
 			</router-link>
 		</div>
+		
     </div>
+	<div v-if="this.comments.length > 0">
+		<div v-for="comment in comments" v-bind:key="comment._id">
+			<p>{{ comment.text }}</p>
+			<hr/>
+		</div>
+	</div>
+	<div v-else>
+		<br/>
+		<p style="text-align:center">Non ci sono commenti in questo post!</p>
+	</div>
 </template>
 
 <script>
 import axios from 'axios';
-import {setLogged} from "@/global";
+import {loggedUser,setLogged} from "@/global";
 import router from "@/router";
 
 
@@ -36,6 +48,8 @@ export default {
     data() {
         return {
             content: [],
+			comments:[],
+			loggedUser:loggedUser,
 			votes:0
         };
     },
@@ -54,6 +68,13 @@ export default {
 			}
 		})
 
+		await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.$route.params.id}`).then((res)=>{
+
+			if(res.data !== undefined)
+				this.comments = res.data.comments
+		}).catch((err)=>{
+			console.error(err)
+		})
 
     },
 
