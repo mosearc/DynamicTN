@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 exports.comments_get_all = (req, res, next) => {
     Comment.find()
         .select('post text _id')
-        .populate('post', 'name') //cosi la risposta continene il posto collegato e solo il suo nome
+        .populate('post', 'name')
         .exec()
         .then(docs => {
             res.status(200).json({
@@ -88,7 +88,7 @@ exports.comments_get_by_PostId = (req,res,next) => {
 
 exports.comments_get_by_id = (req, res, next) => {
     Comment.findById(req.params.commentId)
-        .populate('post') //cosi la risposta continene il posto collegato
+        .populate('post')
         .exec()
         .then(comment => {
             if(!comment){
@@ -111,7 +111,6 @@ exports.comments_get_by_id = (req, res, next) => {
         })
 }
 
-//array propName:quello che vuoi cambiare: { "propName":"like", "value": 999 }
 exports.comments_modify = (req, res, next) => {
     const id = req.params.commentId;
     const updateOPS = {}

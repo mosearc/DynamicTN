@@ -47,20 +47,20 @@ export default {
               data:{ answer: answer.answer }
 		});
 
-			this.poll = result.data.poll; // Update poll data with new votes
+			this.poll = result.data.poll;
 		} catch (error) {
           switch(error.response.status){
               case 409:
-                  alert("ERROR: you already voted")
+                  alert("Hai già votato.")
                   break;
               case 404:
-                  alert("ERROR: poll does not exists")
+                  alert("Poll non esistente.")
                   break;
               case 401:
-                  alert("ERROR: you must log in if you want to vote")
+                  alert("Accedi per votare.")
                   break;
               default:
-                  alert("Error from the server:"+error.response.status)
+                  alert("Error from the server:" + error.response.status)
                   break;
           }
 

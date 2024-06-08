@@ -12,10 +12,10 @@ describe('middleware',()=>{
 		let token = jwt.sign({email:'invalidEmail',userId:'test'},process.env.JWT_KEY,{expiresIn:'1h'})
 
 		let req = {
-			headers:{
-				'authorization': 'Bearer '+token
-			}
-		}
+			headers: {
+				authorization: `Bearer ${token}`, // prima: 'authorization': 'Bearer '+ token
+			},
+		};
 
 		let mockJsonRes = {
 			json: jest.fn(),
@@ -45,10 +45,10 @@ describe('middleware',()=>{
 		let token = jwt.sign({email:'test@gmail.com',userId:'665c38a18e632d2f57eaa0ab'},process.env.JWT_KEY,{expiresIn:'1h'})
 
 		let req = {
-			headers:{
-				'authorization': 'Bearer '+token
-			}
-		}
+			headers: {
+				authorization: `Bearer ${token}`, // prima: 'authorization': 'Bearer '+ token
+			},
+		};
 
 		let res = {
 			json:jest.fn(),

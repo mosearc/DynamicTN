@@ -23,14 +23,11 @@ exports.save_option_vote = async (req,res,next) => {
 			.then(poll => {
 				if (!poll) {
 					return res.status(404).json({ message: 'Poll not found' });
-					console.log("dio")
 				}
 
 				const answer = poll.answers.find(a => a.answer === req.body.answer);
 				if (!answer) {
 					return res.status(404).json({ message: 'Answer not found' });
-
-					console.log("cane")
 				}
 
 				answer.votes += 1;
