@@ -2,7 +2,14 @@ const mongoose = require('mongoose');
 const Poll = require('../models/poll');
 
 exports.polls_get_all = (req, res, next) => {
-    Poll.find()
+
+	let search = {};
+
+    if (req.query.name !== '' && req.query.name !== undefined)
+        search = { "question": {"$regex":req.query.name+'+',"$options":"i"} };
+
+	console.log(search)
+    Poll.find(search)
     .select('question answers _id createdAt')
     .exec()
     .then(docs => {

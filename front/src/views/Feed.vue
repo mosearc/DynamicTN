@@ -2,8 +2,8 @@
   <div id="page-wrap">
     <div class="search">
       <input v-model="search" class="search-input" placeholder="Cerca post" />
-      <button @click="searchPost" class="search-btn">Cerca</button>
-      <button @click="showAllPosts()" class="search-btn">Torna alla home</button>
+      <button @click="showAllPosts(this.search)" class="search-btn">Cerca</button>
+      <button @click="showAllPosts('')" class="search-btn">Torna alla home</button>
     </div>
     <div class="grid-wrap">
       <div v-for="content in contents" v-bind:key="content._id" class="content-item">
@@ -50,34 +50,36 @@ export default {
   },
 
   methods: {
-		async searchPost() {
-      console.log("42")
-			const params = { name: this.search };
 
-			const result = await axios.get(process.env.VUE_APP_BACK_PATH + "posts", {
+		async showAllPosts(patternName) {
+			console.log("42")
+			const params = { name: patternName};
+
+			this.contents = []
+
+			await axios.get(process.env.VUE_APP_BACK_PATH + "posts", {
 				params
 			}).then((res) => {
 				this.contents = res.data.posts;
-			}).catch((err) => {
-				alert(err)
-			});
-		},
+			}).catch((err)=>{
+				if (err.response.status !== 404)
+					alert(err)
+			})
 
-		async showAllPosts() {
-			try {
-				const postsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'posts');
-				const pollsResult = await axios.get(process.env.VUE_APP_BACK_PATH + 'polls');
-				const contents = [...postsResult.data.posts, ...pollsResult.data.polls];
-				this.contents = contents;
-			} catch (err) {
-				console.log(err);
-			}
+			await axios.get(process.env.VUE_APP_BACK_PATH + "polls", {
+				params
+			}).then((res) => {
+				this.contents = this.contents.concat(res.data.polls);
+			}).catch((err)=>{
+				if (err.response.status !== 404 && err.response.status !== 400)
+					alert(err)
+			})
 		},
 
        
   },
 	async created() {
-		this.showAllPosts();
+		this.showAllPosts('');
     }
 };
 </script>

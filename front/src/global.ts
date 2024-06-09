@@ -44,5 +44,35 @@ function clearLoggedUser () {
    loggedUser.email = undefined
 }
 
+function showErrMessage(err:any){
+	switch(err.response.status){
+		case 409:
+			alert("ERROR: you already voted")
+			break;
+		case 404:
+			alert("ERROR: entity does not exists")
+			break;
+		case 401:
+			alert("ERROR: you must log in if you want to vote")
+			break;
+		default:
+			alert("Error from the server:"+err.response.status)
+			break;
+    }
 
-export {logged, setLogged, isLogged,registered, setRegistered, loggedUser, setLoggedUser, clearLoggedUser, reg, setReg}
+    console.error('Error :', err);
+}
+
+
+export {logged,
+	setLogged, 
+	isLogged,
+	registered, 
+	setRegistered, 
+	loggedUser, 
+	setLoggedUser, 
+	clearLoggedUser, 
+	reg, 
+	setReg,
+	showErrMessage
+}

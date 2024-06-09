@@ -8,32 +8,31 @@ const checkAdmin = require('../middleware/check-role');
 const PostController = require('../controllers/posts');
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + file.originalname)
-    }
+	destination: function (req, file, cb) {
+		cb(null, './uploads/')
+	},
+	filename: function (req, file, cb) {
+		cb(null, Date.now() + file.originalname)
+	}
 })
 
 const fileFilter = (req, file, cb) => {
-    //reject
-    if(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
-        cb(null, true)
-    }else{
-        cb(null, false)
-    }
+	//reject
+	if(file.mimetype === 'image/png' || file.mimetype === 'image/jpeg') {
+		cb(null, true)
+	}else{
+		cb(null, false)
+	}
 }
-
 
 const upload = multer({
 
-    storage: storage,
-    limits: {
-        fileSize: 1024 * 1024 * 5
-    },
-    fileFilter : fileFilter
-});
+		storage: storage,
+		limits: {
+			fileSize: 1024 * 1024 * 200 //200 Kb
+		},
+		fileFilter : fileFilter
+	}).single('postImage');
 
 
 const Post = require('../models/post');
@@ -93,7 +92,7 @@ router.get('/', PostController.posts_get_all)
  *       500:
  *         description: Some server error
  */
-router.post('/', checkAuth, upload.single('postImage'), PostController.posts_create)
+router.post('/', checkAuth, upload, PostController.posts_create)
 
 /**
  * @swagger

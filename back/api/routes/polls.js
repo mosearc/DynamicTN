@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const checkAuth = require('../middleware/check-auth');
+const checkRole = require('../middleware/check-role');
 const PollController = require('../controllers/polls');
 
 /**
@@ -82,7 +83,7 @@ router.get('/:pollId', PollController.polls_get_by_id);
  *       500:
  *         description: Some server error
  */
-router.post('/', PollController.polls_create);
+router.post('/',checkAuth, PollController.polls_create);
 
 
 /**
@@ -114,7 +115,7 @@ router.post('/', PollController.polls_create);
  *      500:
  *        description: Some error happened
  */
-router.patch('/:pollId', PollController.polls_update);
+router.patch('/:pollId',checkAuth,PollController.polls_update);
 
 /**
  * @swagger
@@ -135,6 +136,6 @@ router.patch('/:pollId', PollController.polls_update);
  *       500:
  *         description: Fatal error
  */
-router.delete('/:pollId', PollController.polls_delete);
+router.delete('/:pollId', checkAuth,PollController.polls_delete);
 
 module.exports = router;

@@ -5,7 +5,7 @@ exports.posts_get_all = (req, res, next) => {
     let search = {};
 
     if (req.query.name !== '' && req.query.name !== undefined)
-        search = { name: req.query.name };
+        search = { "name": {"$regex":req.query.name+'+',"$options":"i"}};
 
     Post.find(search)
         .select('name text _id postImage')
@@ -44,7 +44,7 @@ exports.posts_get_all = (req, res, next) => {
 };
 
 exports.posts_create = (req, res, next) => {
-    console.log(req.file)
+	console.log(req.files)
 
     let post
     if(req.file === undefined){

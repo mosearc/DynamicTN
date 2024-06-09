@@ -20,7 +20,7 @@
 
 <script>
 import axios from 'axios';
-import { logged, setLogged } from "@/global";
+import { logged, setLogged,showErrMessage } from "@/global";
 
 export default {
   name: 'PollDetail',
@@ -49,28 +49,20 @@ export default {
 
 			this.poll = result.data.poll; // Update poll data with new votes
 		} catch (error) {
-          switch(error.response.status){
-              case 409:
-                  alert("ERROR: you already voted")
-                  break;
-              case 404:
-                  alert("ERROR: poll does not exists")
-                  break;
-              case 401:
-                  alert("ERROR: you must log in if you want to vote")
-                  break;
-              default:
-                  alert("Error from the server:"+error.response.status)
-                  break;
-          }
-
-          console.error('Error voting:', error);
-      }
+			showErrMessage(error)
+		}
     },
     async deletePoll() {
-        await axios.delete(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
+		await axios.delete(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`,{
+			headers:{
+				Authorization: 'Bearer '+sessionStorage.token
+			}
+		}).catch((err)=>{
+			showErrMessage(err)
+		});
         this.$router.push('/');
-	}
+	},
+
 
   }
 }
