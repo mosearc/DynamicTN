@@ -47,7 +47,7 @@ exports.comments_create = (req, res, next) => {
 			let newComment = await comment.save()
 
 			res.status(201).json({
-                message: "Comment successfull",
+                message: "Comment successfully created",
                 createdComment: {
 					_id: comment._id,
                     post: comment.post,
@@ -72,7 +72,7 @@ exports.comments_get_by_PostId = (req,res,next) => {
 		.then(comments=> {
 			if(!comments.length){
 				return res.status(404).json({
-					message:"no comments in this post"
+					message:"No comments in this post"
 				})
 			}
 			res.status(200).json({
@@ -123,7 +123,7 @@ exports.comments_modify = (req, res, next) => {
         .then(result => {
             console.log(result);
             res.status(200).json({
-                message: 'Comment Updated Successfully',
+                message: 'Comment successfully updated',
                 request: {
                     type: 'GET',
                     url: "http://localhost:3000/posts/" + id
@@ -141,7 +141,7 @@ exports.comments_delete = (req, res, next) => {
         .exec()
         .then(result => {
             res.status(204).json({
-                message: "Comment deletion successfull",
+                message: "Comment successfully deleted",
                 request: {
                     type: 'POST',
                     url: "http://localhost:3000/comments/",

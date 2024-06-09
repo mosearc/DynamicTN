@@ -3,7 +3,7 @@
     <div class="search">
       <input v-model="search" class="search-input" placeholder="Cerca post" />
       <button @click="searchPost" class="search-btn">Cerca</button>
-      <button @click="showAllPosts()" class="search-btn">Torna alla home</button>
+      <button @click="showAllPosts()" class="search-btn">Annulla ricerca</button>
     </div>
     <div class="grid-wrap">
       <div v-for="content in contents" v-bind:key="content._id" class="content-item">
@@ -14,8 +14,9 @@
         <p class="content-description">{{ content.text || '' }}</p>
         <template v-if="content.answers">
           <ul class="poll-answers">
-            <li v-for="answer in content.answers" v-bind:key="answer.answer">
-              {{ answer.answer }} - {{ answer.votes }} voti
+            <li v-for="answer in content.answers" v-bind:key="answer.answer" class="poll-answer">
+              <span class="answer-text">{{ answer.answer }}</span>
+              <span class="answer-votes">{{ answer.votes }}&nbsp;voti</span>
             </li>
           </ul>
         </template>
@@ -133,9 +134,20 @@ export default {
   margin-bottom: 20px;
 }
 
-.poll-answers li {
+.poll-answer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-size: 0.9em;
   color: #666;
+}
+
+.poll-answer .answer-text {
+  flex: 1;
+}
+
+.poll-answer .answer-votes {
+  margin-left: 10px;
 }
 
 .button-group {

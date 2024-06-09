@@ -4,8 +4,8 @@
       <h1>{{ poll.question }}</h1>
       <ul v-if="poll.answers" class="poll-answers">
         <li v-for="answer in poll.answers" v-bind:key="answer.answer" class="poll-answer">
-          <span>{{ answer.answer }}</span>
-          <span>{{ answer.votes }} voti</span>
+          <span class="answer-text">{{ answer.answer }}</span>
+          <span class="answer-votes">{{ answer.votes }}&nbsp;voti</span>
           <button @click="vote(answer)" class="vote-btn">Vota</button>
         </li>
       </ul>
@@ -54,7 +54,7 @@ export default {
                   alert("Hai già votato.")
                   break;
               case 404:
-                  alert("Poll non esistente.")
+                  alert("Poll inesistente.")
                   break;
               case 401:
                   alert("Accedi per votare.")
@@ -104,9 +104,17 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 
-.poll-answer span {
+.poll-answer .answer-text {
+  flex: 1;
+}
+
+.poll-answer .answer-votes {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   font-size: 1em;
   color: #333;
 }

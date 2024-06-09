@@ -20,26 +20,29 @@
 				
 			</div>
 			<router-link to="/">
-				<button class="option">Indietro</button>
+				<button class="back-btn">Indietro</button>
 			</router-link>
 		</div>
 		
     </div>
-	<div v-if="this.comments.length > 0">
-		<div v-for="comment in comments" v-bind:key="comment._id">
-			<p>{{ comment.text }}</p>
-			<hr/>
+	<div id="page-wrap">
+		<h2>Commenti</h2>
+		<div v-if="this.comments.length > 0">
+			<div v-for="comment in comments" v-bind:key="comment._id">
+				<p>{{ comment.text }}</p>
+				<hr/>
+			</div>
 		</div>
-	</div>
-	<div v-else>
-		<br/>
-		<p style="text-align:center">Non ci sono commenti in questo post!</p>
+		<div v-else>
+			<br/>
+			<p style="text-align: center">Non ci sono commenti in questo post.</p>
+		</div>
 	</div>
 </template>
 
 <script>
 import axios from 'axios';
-import {loggedUser,setLogged} from "@/global";
+import { loggedUser,setLogged } from "@/global";
 import router from "@/router";
 
 
@@ -48,34 +51,30 @@ export default {
     data() {
         return {
             content: [],
-			comments:[],
-			loggedUser:loggedUser,
-			votes:0
+			comments: [],
+			loggedUser: loggedUser,
+			votes: 0
         };
     },
     async created() {
         const result = await axios.get(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`);
-        const content = result.data.post;
-        this.content = content;
+        this.content = result.data.post;
 		
-		await axios.get(process.env.VUE_APP_BACK_PATH + `votes/posts/${this.$route.params.id}`).then((res)=>{
-			this.votes = res.data.nrLikes
-		}).catch((err)=>{
-
-			console.error(err)
-			if(err.response.status !== 404){
-				alert(err)
+		await axios.get(process.env.VUE_APP_BACK_PATH + `votes/posts/${this.$route.params.id}`).then((res) => {
+			this.votes = res.data.nrLikes;
+		}).catch((err) => {
+			console.error(err);
+			if (err.response.status !== 404) {
+				alert(err);
 			}
-		})
+		});
 
-		await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.$route.params.id}`).then((res)=>{
-
-			if(res.data !== undefined)
-				this.comments = res.data.comments
-		}).catch((err)=>{
-			console.error(err)
-		})
-
+		await axios.get(process.env.VUE_APP_BACK_PATH + `comments/fromPost/${this.$route.params.id}`).then((res) => {
+			if (res.data !== undefined)
+				this.comments = res.data.comments;
+		}).catch((err) => {
+			console.error(err);
+		});
     },
 
 	computed: {
@@ -85,52 +84,50 @@ export default {
 	},
 	methods: {
 		async deletePost() {
-			console.log("42")
+			console.log("42");
 			await fetch(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`, {
 				method: 'DELETE',
-				headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token},
+				headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token },
 				credentials: 'include',
 			})
 				.then(async (response) => {
 					if (response.ok) {
-                       await router.push('/')
-                    }else{
+                       await router.push('/');
+                    } else {
                        alert("Non sei autorizzato ad eliminare questo post.");
 					}
 				})
 				.catch((error) => {
                     console.log(error);
-				})
+				});
       },
 
-		async sendUpvote(){
+		async sendUpvote() {
 			const result = await fetch(process.env.VUE_APP_BACK_PATH + `votes/posts/sendVote/${this.$route.params.id}`, {
-				method:'POST',
-				headers:{'Content-Type':'application/json','Authorization':'Bearer '+sessionStorage.token},
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token },
 				credentials:'include'
-			}).then((res)=>{
-				switch(res.status){
+			}).then((res) => {
+				switch (res.status) {
 					case 200:
-						this.votes+=1;
+						this.votes += 1;
 						break;
 					case 409:
-						alert("ERROR: you already voted this post")
+						alert("Hai già messo like.");
 						break;
 					case 404:
-						alert("ERROR: post does not exists")
+						alert("Post inesistente.");
 						break;
 					case 401:
-						alert("ERROR: you must log in if you want to vote")
+						alert("Accedi per mettere like.");
 						break;
 				}
-			}).catch((err)=>{
-				alert(err)
-			})
-
+			}).catch((err) => {
+				alert(err);
+			});
 		}
-
-  }
-}
+	}
+};
 </script>
 
 <style scoped>
@@ -157,30 +154,24 @@ img {
     position: relative;
 }
 
-#actions{
-	display:flex;
-	width:100%;
-	flex-direction:row;
-	justify-content:center;
-	align-items:center;
+#actions {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 	gap: 5px;
-	margin-bottom:2px;
+	margin-bottom: 5px;
 }
 
-
 #actions > * {
-	width:100%;
+	width: 100%;
 }
 
 #description {
     position: absolute;
     top: 24px;
     right: 16px;
-}
-
-#location {
-  margin-top: 0.5em;
-  color: #888;
 }
 
 .show-btn {
@@ -199,9 +190,5 @@ img {
 
 .delete-btn:hover {
   background-color: #c82333;
-}
-
-.option{
-	width:100%;
 }
 </style>
