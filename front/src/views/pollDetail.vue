@@ -20,7 +20,7 @@
 
 <script>
 import axios from 'axios';
-import { logged, setLogged,showErrMessage } from "@/global";
+import { loggedUser,isLogged, setLogged,showErrMessage } from "@/global";
 
 export default {
   name: 'PollDetail',
@@ -28,6 +28,11 @@ export default {
       return {
           poll: []
       };
+  },
+  computed:{
+	isLogged(){
+		return isLogged()
+	}
   },
   async created() {
       const result = await axios.get(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`);
@@ -42,23 +47,23 @@ export default {
               url:process.env.VUE_APP_BACK_PATH + `votes/polls/sendVote/${this.$route.params.id}`,
               headers: {
                   'Content-Type':'application/json',
-                  'Authorization':'Bearer '+sessionStorage.token
+                  'Authorization':'Bearer '+loggedUser.token
               },
               data:{ answer: answer.answer }
 		});
 
 			this.poll = result.data.poll; // Update poll data with new votes
 		} catch (error) {
-			showErrMessage(error)
+			showErrMessage(error.response.status)
 		}
     },
     async deletePoll() {
 		await axios.delete(process.env.VUE_APP_BACK_PATH + `polls/${this.$route.params.id}`,{
 			headers:{
-				Authorization: 'Bearer '+sessionStorage.token
+				Authorization: 'Bearer '+loggedUser.token
 			}
 		}).catch((err)=>{
-			showErrMessage(err)
+			showErrMessage(err.response.status)
 		});
         this.$router.push('/');
 	},

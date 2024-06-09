@@ -22,7 +22,7 @@
 <script lang="ts">
 import { reactive,defineComponent } from "vue";
 import { useRouter } from "vue-router";
-import { clearLoggedUser, logged, setLogged, setLoggedUser } from "@/global";
+import { clearLoggedUser, loggedUser, setLogged, setLoggedUser } from "@/global";
 import  router  from '@/router'
 
 export default defineComponent({
@@ -33,7 +33,6 @@ export default defineComponent({
 	return {
       name: '',
       text: '',
-      token: sessionStorage.token,
       image:null,
 	}
   },
@@ -55,7 +54,7 @@ export default defineComponent({
 
 		const response = await fetch(process.env.VUE_APP_BACK_PATH + 'posts', {
 			method: 'POST',
-			headers: {'Authorization': 'Bearer ' + sessionStorage.token},
+			headers: {'Authorization': 'Bearer ' + loggedUser.token},
 			credentials: 'include',
 			body: dataCred
 		});

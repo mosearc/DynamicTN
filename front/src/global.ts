@@ -45,7 +45,7 @@ function clearLoggedUser () {
 }
 
 function showErrMessage(err:any){
-	switch(err.response.status){
+	switch(err){
 		case 409:
 			alert("ERROR: you already voted")
 			break;
@@ -56,7 +56,7 @@ function showErrMessage(err:any){
 			alert("ERROR: you must log in if you want to vote")
 			break;
 		default:
-			alert("Error from the server:"+err.response.status)
+			alert("Error from the server:"+err)
 			break;
     }
 

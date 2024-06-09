@@ -34,7 +34,7 @@ export default{
 					authorization: " "+loggedUser.token
 				}
 			}).then((res)=>{
-				this.navigate.push({path:`/comments/${this.$route.params.id}`})	
+				this.navigate.push({path:`/feed/${this.$route.params.id}`})	
 			}).catch((err)=>{
 				console.error(err)
 			});

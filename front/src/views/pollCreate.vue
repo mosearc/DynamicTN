@@ -25,7 +25,8 @@
 
 <script>
 import axios from 'axios';
-import {showErrMessage} from '@/global'
+import {showErrMessage,loggedUser} from '@/global'
+
 
 export default {
   name: 'PollCreate',
@@ -54,14 +55,14 @@ export default {
       },
       {
           headers:{
-            Authorization: 'Bearer '+sessionStorage.token
+            Authorization: 'Bearer '+loggedUser.token
           }
       })
       .then(response => {
         this.$router.push('/');
       })
       .catch(err => {
-		showErrMessage(err)
+		showErrMessage(err.response.status)
       });
     }
   }

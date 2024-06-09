@@ -2,7 +2,6 @@
   <form @submit.prevent="submit" class="form-signin w-100 m-auto">
     <span v-if="reg.si || loggedUser.token">
       Sei già registrato.
-      <button @click="exit">Esci</button>
     </span>
     <span v-if="!reg.si && !loggedUser.token">
       <h1 class="h3 mb-3 fw-normal"><b>Crea un account</b></h1>

@@ -41,7 +41,7 @@
 
 <script>
 import axios from 'axios';
-import {loggedUser,setLogged} from "@/global";
+import {loggedUser,showErrMessage,setLogged} from "@/global";
 import router from "@/router";
 
 
@@ -108,22 +108,14 @@ export default {
 		async sendUpvote(){
 			const result = await fetch(process.env.VUE_APP_BACK_PATH + `votes/posts/sendVote/${this.$route.params.id}`, {
 				method:'POST',
-				headers:{'Content-Type':'application/json','Authorization':'Bearer '+sessionStorage.token},
+				headers:{'Content-Type':'application/json','Authorization':'Bearer '+loggedUser.token},
 				credentials:'include'
 			}).then((res)=>{
-				switch(res.status){
-					case 200:
-						this.votes+=1;
-						break;
-					case 409:
-						alert("ERROR: you already voted this post")
-						break;
-					case 404:
-						alert("ERROR: post does not exists")
-						break;
-					case 401:
-						alert("ERROR: you must log in if you want to vote")
-						break;
+				if(res.ok)
+					this.votes+=1
+				else{
+					console.log(res)
+					showErrMessage(res.status)
 				}
 			}).catch((err)=>{
 				alert(err)
