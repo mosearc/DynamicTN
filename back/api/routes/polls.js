@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const checkAuth = require('../middleware/check-auth');
 const checkRole = require('../middleware/check-role');
 const PollController = require('../controllers/polls');
+const checkAdmin = require("../middleware/check-role");
 
 /**
  * @swagger
@@ -115,7 +116,7 @@ router.post('/',checkAuth, PollController.polls_create);
  *      500:
  *        description: Some error happened
  */
-router.patch('/:pollId',checkAuth,PollController.polls_update);
+router.patch('/:pollId', checkAuth, checkAdmin, PollController.polls_update);
 
 /**
  * @swagger
@@ -136,6 +137,6 @@ router.patch('/:pollId',checkAuth,PollController.polls_update);
  *       500:
  *         description: Fatal error
  */
-router.delete('/:pollId', checkAuth,PollController.polls_delete);
+router.delete('/:pollId', checkAuth, checkAdmin, PollController.polls_delete);
 
 module.exports = router;
