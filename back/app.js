@@ -16,8 +16,8 @@ const usersRoutes = require('./api/routes/users');
 const authRoutes = require('./api/routes/auth');
 const upvoteRoutes = require('./api/routes/votes');
 
-mongoose.connect(process.env.DATABASE_URI,{
-    //useMongoClient: true
+mongoose.connect(process.env.DATABASE_URI, {
+    // useMongoClient: true
 })
 
 mongoose.Promise = global.Promise;

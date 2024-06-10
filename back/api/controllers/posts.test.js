@@ -30,7 +30,6 @@ describe('Posts Controller', () => {
     });
 
     afterAll(async () => {
-        await Post.deleteMany();
         await mongoose.connection.close();
     });
 

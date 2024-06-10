@@ -32,7 +32,7 @@
 		<div v-if="this.comments.length > 0">
 			<div v-for="comment in comments" v-bind:key="comment._id">
 				<p>{{ comment.text }}</p>
-				<button type="button" @click="elimina(comment._id)">Elimina</button>
+				<button type="button" @click="deleteComment(comment._id)" class="delete-btn">Elimina</button>
 				<hr />
 			</div>
 		</div>
@@ -122,7 +122,7 @@ export default {
 			});
 		},
 
-		async elimina(commentId) {
+		async deleteComment(commentId) {
             try {
                 await axios.delete(`${process.env.VUE_APP_BACK_PATH}comments/${commentId}`, {
                     headers: {
@@ -132,6 +132,7 @@ export default {
                 this.comments = this.comments.filter(comment => comment._id !== commentId);
             } catch (error) {
                 console.error('Failed to delete comment:', error);
+                alert("Non sei autorizzato ad eliminare questo commento.");
             }
         }
 	}
@@ -215,6 +216,7 @@ img {
 
 .delete-btn {
   background-color: #dc3545;
+  padding: 5px 10px;
  
 }
 

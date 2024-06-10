@@ -77,8 +77,6 @@ exports.save_upvote = async (req,res,next) => {
 		user:req.userData.userId
 	}
 
-	//controlliamo prima che il post esista, se non è così si ritorna 404,
-	//altrimenti si passa a creare il voto
 	let postExists = true
 	
 	await Post.findById(new_upvote.post).then((result)=>{
