@@ -9,6 +9,14 @@ const VotesController = require('../controllers/votes');
 
 /**
  * @swagger
+ * tags:
+ *   name: Vote
+ *   description: API endpoint to manage likes
+ */
+
+
+/**
+ * @swagger
  * /votes:
  *   post:
  *     summary: save an upvote put by an user 
@@ -18,7 +26,7 @@ const VotesController = require('../controllers/votes');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/votes'
+ *             $ref: '#/components/schemas/Vote'
  *     responses:
  *       201:
  *         description: The upvote was successfully saved 
@@ -34,28 +42,23 @@ router.post("/polls/sendVote/:pollId",checkAuth,VotesController.save_option_vote
 
 
 
-/**
- * @swagger
- * tags:
- *   name: Likes
- *   description: API endpoint to manage likes 
- */
+
 
 /**
  * @swagger
  * /votes:
  *   get:
  *     summary: Returns the total amounts of upvotes under a post 
- *     tags: [Comment]
+ *     tags: [Vote]
  *     responses:
  *       200:
  *         description: number of likes of a post 
  *         content:
  *           application/json:
  *             schema:
- *               type: number 
+ *               type: number
  *               items:
- *                 nrLikes 
+ *                 nrLikes
  *       500:
  *         description: fatal error
  */
@@ -67,13 +70,13 @@ router.get("/posts/:postId",VotesController.get_votes_post)
  * /votes:
  *   post:
  *     summary: save an upvote put by an user 
- *     tags: [Comment]
+ *     tags: [Vote]
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/votes'
+ *             $ref: '#/components/schemas/Vote'
  *     responses:
  *       201:
  *         description: The upvote was successfully saved 

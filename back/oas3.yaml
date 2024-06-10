@@ -286,48 +286,45 @@ paths:
           description: The poll was deleted
         '500':
           description: Fatal error
-
   /votes/posts/{postId}:
-  	get:
-	  summary: Return the number of votes left on the post
-	  tags: [ Vote ]
-	  responses:
-	    200:
-		  description: The number of votes
-		  content:
-		    application/json:
-			  schema:
-			    type: number
-				item:
-				  nrLikes
-		500:
-		  description: fatal error
+    get:
+      summary: Return the number of votes left on the post
+      tags: [ Vote ]
+      responses:
+        '200':
+         description: The number of votes
+         content:
+             application/json:
+              schema:
+               $ref: '#/components/schemas/Vote'
+        500:
+          description: fatal error
   /votes/posts/sendVote/{postId}:
-  	post:
-	  summary: save vote left by user under a post 
-	  tags: [ Vote ]
-	  responses:
-	    200:
-		  description: vote saved successfully 
-		404:
-		  description: post does not exists
-		409:
-		  description: user already voted the post
-		500:
-		  description: fatal error
+    post:
+      summary: save vote left by user under a post
+      tags: [ Vote ]
+      responses:
+        200:
+          description: vote saved successfully
+        404:
+          description: post does not exists
+        409:
+          description: user already voted the post
+        500:
+          description: fatal error
   /votes/polls/sendVote/{pollId}:
-  	post:
-	  summary: save vote left by user under a poll
-	  tags: [ Vote ]
-	  responses:
-	    200:
-		  description: vote saved successfully 
-		404:
-		  description: poll does not exists
-		409:
-		  description: user already voted
-		500:
-		  description: fatal error		  
+    post:
+      summary: save vote left by user under a poll
+      tags: [ Vote ]
+      responses:
+        200:
+          description: vote saved successfully
+        404:
+          description: poll does not exists
+        409:
+          description: user already voted
+        500:
+          description: fatal error
 
   /comments:
     get:
@@ -427,27 +424,27 @@ paths:
         500:
           description: fatal error
   /comments/fromPost/{id}:
-  	get:
+    get:
       summary: Get the comment associated with the post id
       tags: [ Comment ]
       parameters:
         - in: path
-		  name: id
-		  schema:
-		    type: string
-		  required: true
-		  description: The post id
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post id
       responses:
         201:
           description: All the comments of the post with that id
-		  content:
-            application/json:
-			  schema:
-			    $ref: '#/components/schemas/Comment'
-		404:
-		  description: Comment not found in the post
-		500:
-		  description: fatal error
+          content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        404:
+          description: Comment not found in the post
+        500:
+          description: fatal error
   /auth:
     post:
       summary: Perform the user login
@@ -562,16 +559,21 @@ components:
     Vote:
       type: object
       required:
-        - post 
-        - user 
-      description: create likes for posts 
+        - post
+        - poll
+        - user
+      description: create likes for posts
       properties:
         user:
-          type: mongoose.Schema.Types.ObjectId 
-          description: ID of the user that left the vote on the post 
+          type: mongoose.Schema.Types.ObjectId
+          description: ID of the user that left the vote on the post
         post:
-          type: mongoose.Schema.Types.ObjectId 
-          description: ID of the post where the user has put a vote 
-		poll:
-          type: mongoose.Schema.Types.ObjectId 
-          description: ID of the poll where the user has put a vote 
+          type: mongoose.Schema.Types.ObjectId
+          description: ID of the post where the user has put a vote
+        poll:
+          type: mongoose.Schema.Types.ObjectId
+          description: ID of the poll where the user has put a vote
+      example:
+        post: examplePostId
+        poll: examplePollId
+        user: exampleUserId
