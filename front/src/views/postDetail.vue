@@ -32,11 +32,12 @@
 		<div v-if="this.comments.length > 0">
 			<div v-for="comment in comments" v-bind:key="comment._id">
 				<p>{{ comment.text }}</p>
-				<hr/>
+				<button type="button" @click="elimina(comment._id)">Elimina</button>
+				<hr />
 			</div>
 		</div>
 		<div v-else>
-			<br/>
+			<br />
 			<p style="text-align: center">Non ci sono commenti in questo post.</p>
 		</div>
 	</div>
@@ -44,7 +45,7 @@
 
 <script>
 import axios from 'axios';
-import { loggedUser,showErrMessage,setLogged } from "@/global";
+import { loggedUser, showErrMessage, setLogged } from "@/global";
 import router from "@/router";
 
 
@@ -53,9 +54,9 @@ export default {
     data() {
         return {
             content: [],
-			comments:[],
-			isLogged:loggedUser.token !== undefined,
-			votes:0
+			comments: [],
+			isLogged: loggedUser.token !== undefined,
+			votes: 0
         };
     },
     async created() {
@@ -102,7 +103,7 @@ export default {
 				.catch((error) => {
                     console.log(error);
 				});
-      },
+        },
 
 		async sendUpvote() {
 			const result = await fetch(process.env.VUE_APP_BACK_PATH + `votes/posts/sendVote/${this.$route.params.id}`, {
@@ -119,7 +120,20 @@ export default {
 			}).catch((err) => {
 				alert(err);
 			});
-		}
+		},
+
+		async elimina(commentId) {
+            try {
+                await axios.delete(`${process.env.VUE_APP_BACK_PATH}comments/${commentId}`, {
+                    headers: {
+                        Authorization: 'Bearer ' + loggedUser.token
+                    }
+                });
+                this.comments = this.comments.filter(comment => comment._id !== commentId);
+            } catch (error) {
+                console.error('Failed to delete comment:', error);
+            }
+        }
 	}
 };
 </script>
