@@ -10,14 +10,16 @@
 
 			
 			<div id="actions">
-				<button @click="sendUpvote">{{ this.votes }}&nbsp;👍</button>
-			
-				<router-link v-bind:to="/commentCreate/ + this.content._id" v-if="loggedUser.token !== undefined" >
-				
-					<button class="show-btn">Commenta</button>
-				</router-link>
-				<button @click="deletePost" class="delete-btn">Elimina post</button>
-				
+				<div :id="this.isLogged ? 'visible' : 'only'">
+					<button @click="sendUpvote">{{ this.votes }}&nbsp;👍</button>
+				</div>
+				<div v-if="this.isLogged" class="optional">
+					<router-link v-bind:to="/commentCreate/ + this.content._id"  >
+					
+						<button class="show-btn">Commenta</button>
+					</router-link>
+					<button @click="deletePost" class="delete-btn">Elimina post</button>
+				</div>
 			</div>
 			<router-link to="/">
 				<button class="back-btn">Indietro</button>
@@ -42,7 +44,7 @@
 
 <script>
 import axios from 'axios';
-import { loggedUser,setLogged } from "@/global";
+import {loggedUser,showErrMessage,setLogged} from "@/global";
 import router from "@/router";
 
 
@@ -51,9 +53,9 @@ export default {
     data() {
         return {
             content: [],
-			comments: [],
-			loggedUser: loggedUser,
-			votes: 0
+			comments:[],
+			isLogged:loggedUser.token !== undefined,
+			votes:0
         };
     },
     async created() {
@@ -87,7 +89,7 @@ export default {
 			console.log("42");
 			await fetch(process.env.VUE_APP_BACK_PATH + `posts/${this.$route.params.id}`, {
 				method: 'DELETE',
-				headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token },
+				headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + loggedUser.token },
 				credentials: 'include',
 			})
 				.then(async (response) => {
@@ -104,23 +106,15 @@ export default {
 
 		async sendUpvote() {
 			const result = await fetch(process.env.VUE_APP_BACK_PATH + `votes/posts/sendVote/${this.$route.params.id}`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + sessionStorage.token },
+				method:'POST',
+				headers:{'Content-Type':'application/json','Authorization':'Bearer '+loggedUser.token},
 				credentials:'include'
-			}).then((res) => {
-				switch (res.status) {
-					case 200:
-						this.votes += 1;
-						break;
-					case 409:
-						alert("Hai già messo like.");
-						break;
-					case 404:
-						alert("Post inesistente.");
-						break;
-					case 401:
-						alert("Accedi per mettere like.");
-						break;
+			}).then((res)=>{
+				if(res.ok)
+					this.votes+=1
+				else{
+					console.log(res)
+					showErrMessage(res.status)
 				}
 			}).catch((err) => {
 				alert(err);
@@ -164,8 +158,32 @@ img {
 	margin-bottom: 5px;
 }
 
-#actions > * {
-	width: 100%;
+
+
+#actions:has(div#only) * {
+	width:100%;
+}
+
+#visible{
+	width:33%;
+	display:flex;
+	flex-direction:row;
+}
+
+#visible>*{
+	width:100%;
+}
+
+
+.optional{
+	width:66%;
+	display:flex;
+	gap:5px;
+	flex-direction:row;
+}
+
+.optional > * {
+	width:50%;
 }
 
 #description {

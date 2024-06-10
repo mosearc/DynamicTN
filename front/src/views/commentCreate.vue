@@ -30,20 +30,20 @@ export default {
 
       const body = { text: this.text, postId: this.$route.params.id };
 
-      await axios.post(process.env.VUE_APP_BACK_PATH + "comments", body, {
-        headers: {
-          authorization: " " + loggedUser.token,
-        },
-      })
-      .then(() => {
-        this.navigate.push({ path: `/feed/${this.$route.params.id}` });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    },
-  },
-};
+
+		const result = await axios.post(process.env.VUE_APP_BACK_PATH + "comments",body,{
+			headers:{
+				authorization: " "+loggedUser.token
+			}
+		}).then((res)=>{
+			this.navigate.push({path:`/feed/${this.$route.params.id}`})	
+		}).catch((err)=>{
+			console.error(err)
+		});
+	
+	}
+  }
+}
 </script>
 
 <style scoped>

@@ -2,9 +2,8 @@
   <form @submit.prevent="submit" class="form-signin w-100 m-auto">
     <span v-if="loggedUser.token">
       Hai già effettuato l'accesso.
-      <button @click="logout">Esci</button>
     </span>
-    <span v-if="!loggedUser.token">
+    <span v-if="!isLogged">
       <h1 class="h3 mb-3 fw-normal"><b>Entra nel tuo account</b></h1>
       <input v-model="data.email" type="email" class="form-control" placeholder="Inserisci e-mail">
       <input v-model="data.password" type="password" class="form-control" placeholder="Inserisci password">
@@ -16,14 +15,17 @@
 <script lang="ts">
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import { clearLoggedUser, logged, loggedUser, setLogged, setLoggedUser } from "@/global";
+import { clearLoggedUser, isLogged, loggedUser, setLogged, setLoggedUser } from "@/global";
 
 export default {
   name: 'LoginView',
   computed: {
     loggedUser() {
       return loggedUser
-    }
+    },
+	isLogged(){
+		return isLogged()
+	}
   },
   setup() {
     const data = reactive({
@@ -31,9 +33,6 @@ export default {
       password: '',
       token: ''
     })
-
-    loggedUser.token = sessionStorage.token;
-    console.log(sessionStorage.getItem("token"))
 
     const router = useRouter()
 
@@ -51,9 +50,6 @@ export default {
       data.token = token
 
       if(response.ok){
-        //localStorage.setItem('token', token)
-        sessionStorage.setItem('token', token)
-
         await router.push('/')
 
         setLogged(1)
@@ -66,19 +62,11 @@ export default {
       }
     }
 
-    function logout(){
-      console.log("42")
-      clearLoggedUser()
-      //localStorage.removeItem('token')
-      sessionStorage.removeItem('token')
-      setLogged(0)
-    }
+    
 
     return {
       data,
       submit,
-      logged,
-      logout
     }
   }
 }

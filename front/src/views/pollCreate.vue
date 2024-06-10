@@ -25,6 +25,8 @@
 
 <script>
 import axios from 'axios';
+import {showErrMessage,loggedUser} from '@/global'
+
 
 export default {
   name: 'PollCreate',
@@ -50,12 +52,17 @@ export default {
       axios.post(process.env.VUE_APP_BACK_PATH + 'polls', {
         question: this.question,
         answers: answersToSend
+      },
+      {
+          headers:{
+            Authorization: 'Bearer '+loggedUser.token
+          }
       })
       .then(response => {
         this.$router.push('/');
       })
-      .catch(error => {
-        console.error(error);
+      .catch(err => {
+		showErrMessage(err.response.status)
       });
     }
   }
