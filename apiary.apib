@@ -1,0 +1,579 @@
+openapi: 3.0.0
+info:
+  title: DynamicTN
+  version: 1.0.0
+  description: DynamicTN is a university project aimed at creating a platform to share and expose improvement suggestions for the city of Trento, Italy.
+servers:
+  - url: http://localhost:3000
+    description: development server
+tags:
+  - name: User
+    description: API endpoint to manage users
+  - name: Post
+    description: API endpoint to manage posts
+  - name: Poll
+    description: API endpoint to manage polls
+  - name: Comment
+    description: API endpoint to manage comments
+  - name: Auth
+    description: API endpoint to manage login
+  - name: Vote
+    description: API endpoint to manage votes 
+
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      tags: [ User ]
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      responses:
+          201:
+            description: The user was successfully created and email was sent
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          500:
+            description: Some server error
+          409:
+            description: conflict, the user already exists
+    get:
+      summary: Returns the list of all the users
+      tags: [ User ]
+      responses:
+        200:
+          description: The list of the users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /users/{id}:
+    delete:
+      summary: Remove the user by id
+      tags: [ User ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The user id
+      responses:
+        200:
+          description: The user was deleted
+        500:
+          description: fatal error
+  /users/{email}:
+    get:
+      summary: Get the user by email
+      tags: [ User ]
+      parameters:
+        - in: path
+          name: email
+          schema:
+            type: string
+          required: true
+          description: The user email
+      responses:
+        200:
+          description: The user with that email
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        404:
+          description: not found
+        500:
+          description: fatal error
+  /posts:
+    get:
+      summary: Returns the list of all the posts
+      tags: [ Post ]
+      responses:
+        200:
+          description: The list of the posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        404:
+          description: seems empty :(
+        500:
+          description: fatal error
+    post:
+      summary: Create a new post
+      tags: [ Post ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        201:
+          description: The post was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        500:
+          description: Some server error
+  /posts/{id}:
+    get:
+      summary: Get the post by id
+      tags: [ Post ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post id
+      responses:
+        200:
+          description: The post with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        404:
+          description: not found
+        500:
+          description: fatal error
+    patch:
+      summary: Update the post by id
+      tags: [ Post ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        200:
+          description: The post was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        500:
+          description: Some error happened
+    delete:
+      summary: Remove the post by id
+      tags: [ Post ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post id
+      responses:
+        204:
+          description: The post was deleted
+        500:
+          description: fatal error
+  /polls:
+    get:
+      summary: Returns the list of all the polls
+      tags: [ Poll ]
+      responses:
+        '200':
+          description: The list of the polls
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Poll'
+        '404':
+          description: Seems empty :(
+        '500':
+          description: Fatal error
+    post:
+      summary: Create a new poll
+      tags: [ Poll ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        '201':
+          description: The poll was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        '500':
+          description: Some server error
+  /polls/{pollId}:
+    get:
+      summary: Get the poll by id
+      tags: [ Poll ]
+      parameters:
+        - in: path
+          name: pollId
+          schema:
+            type: string
+          required: true
+          description: The poll id
+      responses:
+        '200':
+          description: The poll with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        '404':
+          description: Not found
+        '500':
+          description: Fatal error
+    patch:
+      summary: Update the poll by id
+      tags: [ Poll ]
+      parameters:
+        - in: path
+          name: pollId
+          schema:
+            type: string
+          required: true
+          description: The poll id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Poll'
+      responses:
+        '200':
+          description: The poll was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Poll'
+        '500':
+          description: Some error happened
+    delete:
+      summary: Remove the poll by id
+      tags: [ Poll ]
+      parameters:
+        - in: path
+          name: pollId
+          schema:
+            type: string
+          required: true
+          description: The poll id
+      responses:
+        '204':
+          description: The poll was deleted
+        '500':
+          description: Fatal error
+  /votes/posts/{postId}:
+    get:
+      summary: Return the number of votes left on the post
+      tags: [ Vote ]
+      responses:
+        '200':
+         description: The number of votes
+         content:
+             application/json:
+              schema:
+               $ref: '#/components/schemas/Vote'
+        500:
+          description: fatal error
+  /votes/posts/sendVote/{postId}:
+    post:
+      summary: save vote left by user under a post
+      tags: [ Vote ]
+      responses:
+        200:
+          description: vote saved successfully
+        404:
+          description: post does not exists
+        409:
+          description: user already voted the post
+        500:
+          description: fatal error
+  /votes/polls/sendVote/{pollId}:
+    post:
+      summary: save vote left by user under a poll
+      tags: [ Vote ]
+      responses:
+        200:
+          description: vote saved successfully
+        404:
+          description: poll does not exists
+        409:
+          description: user already voted
+        500:
+          description: fatal error
+
+  /comments:
+    get:
+      summary: Returns the list of all the comments
+      tags: [ Comment ]
+      responses:
+        200:
+          description: The list of the comments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        500:
+          description: fatal error
+    post:
+      summary: Create a new comment
+      tags: [ Comment ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        201:
+          description: The comment was successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        500:
+          description: Some server error
+        404:
+          description: Post not found
+  /comments/{id}:
+    get:
+      summary: Get the comment by id
+      tags: [ Comment ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The comment id
+      responses:
+        200:
+          description: The comment with that id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        404:
+          description: Comment not found
+        500:
+          description: fatal error
+    put:
+      summary: Update the comment by id
+      tags: [ Comment ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The comment id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        200:
+          description: The comment was updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        500:
+          description: Some error happened
+    delete:
+      summary: Remove the comment by id
+      tags: [ Comment ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The comment id
+      responses:
+        204:
+          description: The comment was deleted
+        500:
+          description: fatal error
+  /comments/fromPost/{id}:
+    get:
+      summary: Get the comment associated with the post id
+      tags: [ Comment ]
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The post id
+      responses:
+        201:
+          description: All the comments of the post with that id
+          content:
+           application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+        404:
+          description: Comment not found in the post
+        500:
+          description: fatal error
+  /auth:
+    post:
+      summary: Perform the user login
+      tags: [ Auth ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Auth'
+      responses:
+        200:
+          description: Auth successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+        500:
+          description: Some server error
+        401:
+          description: Auth failed
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - email
+        - password
+      description: The user model of the system
+      properties:
+        email:
+          type: string
+          description: Email address of the user
+        password:
+          type: string
+          description: Password of the user
+      example:
+        email: example@example.com
+        password: examplePassword
+    Post:
+      type: object
+      required:
+        - name
+        - text
+      description: ''
+      properties:
+        name:
+          type: string
+          description: Name of the post
+        text:
+          type: string
+          description: Text of the post
+        postImage:
+          type: string
+          description: Image for the post
+      example:
+        name: examplePostTitle
+        text: examplePostText
+        postImage: exampleImageUrl
+    Poll:
+      type: object
+      required:
+        - question
+        - answers
+      properties:
+        question:
+          type: string
+          description: The question of the poll
+        answers:
+          type: array
+          items:
+            type: string
+          description: The answers for the poll
+      example:
+        question: Red or blue pill?
+        answers:
+          - Red
+          - Blue
+          - 42
+    Comment:
+      type: object
+      required:
+        - post
+        - text
+      description: Creating a comment linked to one post, use postId
+      properties:
+        post:
+          type: mongoose.Schema.Types.ObjectId
+          description: Link at its post
+        text:
+          type: string
+          description: Text of the comment
+      example:
+        postId: examplePostId
+        text: exampleCommentText
+    Auth:
+      type: object
+      required:
+        - email
+        - password
+      description: Simulated model used to perform login with a RESTful logic
+      properties:
+        email:
+          type: string
+          description: Email address of the user
+        password:
+          type: string
+          description: Password of the user
+      example:
+        email: example@example.com
+        password: examplePassword
+    Vote:
+      type: object
+      required:
+        - post
+        - poll
+        - user
+      description: create likes for posts
+      properties:
+        user:
+          type: mongoose.Schema.Types.ObjectId
+          description: ID of the user that left the vote on the post
+        post:
+          type: mongoose.Schema.Types.ObjectId
+          description: ID of the post where the user has put a vote
+        poll:
+          type: mongoose.Schema.Types.ObjectId
+          description: ID of the poll where the user has put a vote
+      example:
+        post: examplePostId
+        poll: examplePollId
+        user: exampleUserId
