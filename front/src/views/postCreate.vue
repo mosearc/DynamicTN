@@ -10,8 +10,8 @@
       <input v-model="text" ref="text" type="text" id="postText" class="form-control" placeholder="Inserisci testo" />
     </div>
 	<div class="form-group">
-      <label for="postImage">Foto:</label>
-      <input type="file" ref ="postImage" @change="updateImage" accept="image/*" id="postImage" name="postImage" class="form-control" placeholder="Seleziona un immagine" />
+      <label for="postImage">Immagine <em>(facoltativa)</em>:</label>
+      <input type="file" ref ="postImage" @change="updateImage" accept="image/*" id="postImage" name="postImage" class="form-control" placeholder="Seleziona un'immagine" />
     </div>
     <div class="form-group">
       <button type="submit" class="submit-btn">Pubblica</button>
@@ -61,13 +61,13 @@ export default defineComponent({
 
 		if (response.ok) {
 			await router.push('/')
-			alert("Post creation success")
+			alert("Post creato :)")
 		} else {
 			if (response.status == 401) {
 				await router.push('/login')
 				alert("Token expires")
 			} else {
-				alert("Post creation failed, retry")
+				alert("Post non creato, riprova :(")
 			}
 		}
 	}

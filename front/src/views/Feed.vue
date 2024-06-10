@@ -56,7 +56,7 @@ export default {
 
 		async showAllPosts(patternName) {
 			console.log("42")
-			const params = { name: patternName};
+			const params = { name: patternName };
 
 			this.contents = []
 

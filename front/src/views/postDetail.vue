@@ -44,7 +44,7 @@
 
 <script>
 import axios from 'axios';
-import {loggedUser,showErrMessage,setLogged} from "@/global";
+import { loggedUser,showErrMessage,setLogged } from "@/global";
 import router from "@/router";
 
 
@@ -127,6 +127,7 @@ export default {
 <style scoped>
 #page-wrap {
   margin-top: 16px;
+  margin-bottom: 16px;
   padding: 16px;
   max-width: 600px;
   background-color: #fff;
@@ -158,32 +159,29 @@ img {
 	margin-bottom: 5px;
 }
 
-
-
 #actions:has(div#only) * {
-	width:100%;
+	width: 100%;
 }
 
-#visible{
-	width:33%;
-	display:flex;
-	flex-direction:row;
+#visible {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
 }
 
-#visible>*{
-	width:100%;
+#visible > * {
+	width: 100%;
 }
 
-
-.optional{
-	width:66%;
-	display:flex;
-	gap:5px;
-	flex-direction:row;
+.optional {
+	width: 100%;
+	display: flex;
+	gap: 5px;
+	flex-direction: row;
 }
 
 .optional > * {
-	width:50%;
+	width: 100%;
 }
 
 #description {

@@ -10,7 +10,7 @@
     <router-view/>
   </div>
   <footer>
-    <p>Made with ❤️ by Arcaro Mosè, Hangu David, Santaniello Mattia</p>
+    <p>Made with ❤️ by Arcaro Mosè, Hangu David, Santaniello Mattia - <em>UniTrento 2023/2024</em></p>
   </footer>
 </template>
 
