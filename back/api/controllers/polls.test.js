@@ -6,8 +6,11 @@ const Poll = require('../models/poll');
 describe('Polls Controller', () => {
     let deletePolls = [];
 	let pollId;
-	var user = { email:'test@gmail.com',password:'test'} 
+	var user = { email:'name@test.com',password:'password'} 
+	var userAdmin = { email:'admin@admin.com',password:'admin'} 
+
 	var token; 
+	var tokenAdmin; 
 
     beforeAll(async () => {
 		await request(app).post("/auth/").send(user).then((res)=>{
@@ -15,6 +18,10 @@ describe('Polls Controller', () => {
 				token = res.body.token
 		})
 
+		await request(app).post("/auth/").send(userAdmin).then((res)=>{
+			if(res.body.token !== undefined)
+				tokenAdmin = res.body.token
+		})
 
         await mongoose.connect(process.env.DATABASE_URI, {
             useNewUrlParser: true,
@@ -49,12 +56,7 @@ describe('Polls Controller', () => {
         expect(response.body.polls).toBeDefined();
     });
 
-    it('should fetch a single poll by id', async () => {
-        const response = await request(app).get(`/polls/${pollId}`);
-        expect(response.status).toBe(200);
-        expect(response.body.poll).toBeDefined();
-        expect(response.body.poll._id).toBe(pollId);
-    });
+    
 
     it('should create a new poll', async () => {
         const newPoll = {
@@ -77,6 +79,13 @@ describe('Polls Controller', () => {
         deletePolls.push(response.body.createdPoll._id);
 		pollId = deletePolls[deletePolls.length - 1] 
     });
+	
+	it('should fetch a single poll by id', async () => {
+        const response = await request(app).get(`/polls/${pollId}`);
+        expect(response.status).toBe(200);
+        expect(response.body.poll).toBeDefined();
+        expect(response.body.poll._id).toBe(pollId);
+    });
 
     it('should update a poll', async () => {
         const updatedPoll = [
@@ -87,16 +96,25 @@ describe('Polls Controller', () => {
         const response = await request(app)
 			.patch(`/polls/${pollId}`)
 			.send(updatedPoll)
-			.set('authorization',token);
+			.set('authorization',tokenAdmin);
 
         expect(response.status).toBe(200);
         expect(response.body.message).toBe('Poll Updated Successfully');
     });
 
-    it('should delete a poll', async () => {
+	it('should return error if not-admin user tries to delete a poll', async () => {
         const response = await request(app)
 			.delete(`/polls/${pollId}`)
 			.set('authorization',token);
+        expect(response.status).toBe(403);
+    });
+
+    it('should delete a poll', async () => {
+        const response = await request(app)
+			.delete(`/polls/${pollId}`)
+			.set('authorization',tokenAdmin);
         expect(response.status).toBe(204);
     });
+
+
 });

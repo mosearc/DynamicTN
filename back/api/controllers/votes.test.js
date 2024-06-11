@@ -11,6 +11,7 @@ const mockPollId = new mongoose.Types.ObjectId();
 const mockPostId = new mongoose.Types.ObjectId();
 const mockToken = jwt.sign({ userId: mockUserId }, process.env.JWT_KEY, { expiresIn: '1h' });
 
+
 beforeAll(async () => {
     await mongoose.connect(process.env.DATABASE_URI, {
         useNewUrlParser: true,
@@ -21,14 +22,17 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+	await Poll.deleteOne({_id:mockPollId});
+    await Post.deleteOne({_id:mockPostId});
+
     await mongoose.connection.close();
 });
 
-afterEach(async () => {
+/*afterEach(async () => {
+	await Poll.deleteMany({});
     await Vote.deleteMany({});
-    await Poll.deleteMany({});
     await Post.deleteMany({});
-});
+});*/
 
 describe('Votes Controller', () => {
 
@@ -43,6 +47,7 @@ describe('Votes Controller', () => {
                 ]
             });
             await poll.save();
+		
 
             const response = await request(app)
                 .post(`/votes/polls/sendVote/${mockPollId}`)
@@ -63,6 +68,7 @@ describe('Votes Controller', () => {
                 .send({ answer: 'Option 1' });
 
             expect(response.status).toBe(409);
+			await Vote.deleteOne({_id:vote._id})
         });
     });
 
@@ -77,6 +83,7 @@ describe('Votes Controller', () => {
 
             expect(response.status).toBe(200);
             expect(response.body.nrLikes).toBe(1);
+			await Vote.deleteOne({_id:vote._id})
         });
 
         it('should return 404 if no votes found for a post', async () => {
@@ -111,6 +118,7 @@ describe('Votes Controller', () => {
                 .send();
 
             expect(response.status).toBe(409);
+			Vote.deleteOne({_id:vote._id})
         });
     });
 
