@@ -2,7 +2,7 @@
   <div>
     <PopUp :isVisible="showPopup" @close="handleClose">
       <h2>Informativa sulla Privacy</h2>
-      <p>La tua privacy è importante per noi. Questo sito utilizza i cookies per migliorare l'esperienza dell'utente.</p>
+      <p>Rispetta tutti i membri e usa un linguaggio appropriato. Il mancato rispetto di queste regole può comportare l'esclusione dalla piattaforma. Grazie!</p>
     </PopUp>
 
     <NavBar/>
